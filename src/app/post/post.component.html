@@ -1,7 +1,5 @@
-<ion-card *ngIf="post">
-<!--  
-  <img src="https://image.newyorkcity.it/wp-content/uploads/2015/03/Madison-Square-Garden-in-New-York.jpg" />
-   -->
+<ion-card *ngIf="post"> 
+
   <ion-grid>
     <ion-row>
       <ion-col class="avatar-column">
@@ -9,15 +7,15 @@
           <img [src]="post.avatar | avatar">
         </ion-avatar>
       </ion-col> 
-      <ion-col size-xs="7"  class="ion-padding">
+      <ion-col size-xs="8"  class="ion-padding">
         <ion-text color="primary" class="nickname">{{post.name}}</ion-text><br/>
         <ion-text>{{post.time}}</ion-text> <br/>
         <ion-text color="tertiary">Enigma {{post.enigma + "." + post.section}}</ion-text> <br/>
       </ion-col>
 
-      <ion-col size-xs="1">
+      <ion-col class="ion-text-center options-button" >
         <ion-button fill="clear">
-          <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+          <ion-icon name="ellipsis-vertical"></ion-icon>
         </ion-button>
       </ion-col>
       
@@ -75,19 +73,16 @@
 
           <!-- TODO MOVE TO A COMPONENT -->
            <ion-row >
-            <ion-item>
+            <ion-item class="ion-align-items-center">
             <ion-avatar slot="start" >
-              <img [src]="post.avatar | avatar">
+              <img [src]="profile.avatar | avatar">
             </ion-avatar>
-            <ion-textarea placeholder="Write something..."></ion-textarea>
-            <ion-button fill="clear" class="ion-justify-content-start">
+            <ion-textarea placeholder="Write something..." #commentField></ion-textarea>
+            <ion-button fill="clear" (click)="sendComment(commentField)">
               <ion-icon slot="icon-only" name="send"></ion-icon> 
             </ion-button> 
           </ion-item>
            </ion-row> 
-            
-             
-
 
         </ion-grid>
       </ion-col>

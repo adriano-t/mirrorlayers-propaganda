@@ -13,11 +13,11 @@ export class AppComponent implements OnInit, OnDestroy {
   profile: Profile;
   sub: Subscription;
 
-  constructor(private propaganda: PropagandaService,
+  constructor(
+    private propaganda: PropagandaService,
     private nav: NavController,
     private menu: MenuController) {}
-
-     
+ 
     ngOnInit(): void {
       this.sub = this.propaganda.profileCallback.subscribe((data) => {
         this.profile = data;

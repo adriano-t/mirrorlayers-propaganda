@@ -52,7 +52,6 @@ export class PropagandaService {
     return "https://mirrorlayers.com/propaganda/avatars/" + index + ".png"
   }
  
-
   public login ()  
   {
     const formData = new FormData();
@@ -195,6 +194,38 @@ export class PropagandaService {
     );
   }
 
+  
+  createComment(postId: number, message: string, spoiler: boolean) {
+  const jsonData : CreateCommentInfo = {
+    "postID": postId,
+    "message": message,
+    "spoiler": spoiler,
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(jsonData));
+
+    return this.http
+    .post<CreateCommentResult>(
+      this.baseAddress1 + this.filenameCreateComment + "?dev-test=true", 
+      formData, 
+      {withCredentials: true, })
+    .pipe(
+      take(1),
+      map(
+        (data) : number  => {
+          console.log(data);
+          if(!data.success) {
+            console.log(data.errors)
+            this.nav.navigateRoot(['/auth']);
+            return 0;
+          }
+ 
+          return data.id;
+        }
+      )
+    );
+  }  
+
   like(id: number, type: LikeType, add: boolean) {
     const jsonData : LikeInfo = {
       "id": id,
@@ -242,7 +273,66 @@ export class PropagandaService {
       take(1)
     );
   }
+
   
+  delete(id: number, type: LikeType) {
+  const jsonData : DeleteInfo = {
+    "id": id,
+    "type": type
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(jsonData));
+
+    return this.http
+    .post<DeleteResult>(
+      this.baseAddress1 + this.filenameDelete + "?dev-test=true", 
+      formData, 
+      {withCredentials: true, })
+    .pipe(
+      take(1),
+      map(
+        (data) : boolean => {
+          console.log(data);
+          if(!data.success) {
+            console.log(data.errors);
+            this.nav.navigateRoot(['/auth']);
+            return false;
+          }
+ 
+          return true;
+        }
+      )
+    );
+  }  
+  
+  getNotifications() {
+  const jsonData : GetNotificationsInfo = {
+     
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(jsonData));
+
+    return this.http
+    .post<GetNotificationsResult>(
+      this.baseAddress1 + this.filenameGetNotifications + "?dev-test=true", 
+      formData, 
+      {withCredentials: true, })
+    .pipe(
+      take(1),
+      map(
+        (data) : Notification[] => {
+          console.log(data);
+          if(!data.success) {
+            console.log(data.errors);
+            this.nav.navigateRoot(['/auth']);
+            return null;
+          }
+          return data.notifications;
+        }
+      )
+    );
+  }  
+
   // FUNCTION_NAME() {
   // const jsonData : DATA_INFO = {
   //   "a": a,
@@ -252,7 +342,7 @@ export class PropagandaService {
 
   //   return this.http
   //   .post<RESULT_TYPE>(
-  //     this.baseAddress1 + this.filenameLogin + "?dev-test=true", 
+  //     this.baseAddress1 + this.filename + "?dev-test=true", 
   //     formData, 
   //     {withCredentials: true, })
   //   .pipe(
@@ -261,7 +351,7 @@ export class PropagandaService {
   //       (data) : boolean => {
   //         console.log(data);
   //         if(!data.success) {
-  //           console.log(data.errors)
+  //           console.log(data.errors);
   //           this.nav.navigateRoot(['/auth']);
   //           return false;
   //         }
@@ -273,7 +363,6 @@ export class PropagandaService {
   // }  
 
 }
-
 
 export enum LikeType { 
   Comment = 'comment', 
@@ -451,6 +540,9 @@ export interface AddLikesResult extends Result {
   likes: number;
 }
 
+export interface GetNotificationsResult extends Result {
+  notifications: Notification[];
+}
 
 ///////////////////////////
 // Input
@@ -484,7 +576,7 @@ export interface CreateCommentInfo {
 
 export interface DeleteInfo {
   id: number;
-  type: string;
+  type: LikeType;
 }
 
 export interface GetPostsInfo {
@@ -535,8 +627,7 @@ export interface SearchInfo {
   name: string;
 }
 
-export interface GetNotificationsInfo {
-  id: number;
+export interface GetNotificationsInfo { 
 }
 
 export interface DeleteNotificationInfo {

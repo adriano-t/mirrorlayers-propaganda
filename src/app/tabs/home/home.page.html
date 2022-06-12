@@ -27,12 +27,12 @@
   
   <ion-row>
     <ion-col> 
-      <ion-segment (ionChange)="segmentChanged($event)" value="enigma">
-        <ion-segment-button value="enigma">
-          <ion-label>Sort by Enigma</ion-label>
-        </ion-segment-button>
+      <ion-segment (ionChange)="segmentChanged($event)" value="date">
         <ion-segment-button value="date">
           <ion-label>Sort by Date</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="enigma">
+          <ion-label>Sort by Enigma</ion-label>
         </ion-segment-button>
       </ion-segment>
     </ion-col>

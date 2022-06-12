@@ -14,7 +14,7 @@ export class HomePage implements OnInit, OnDestroy{
   page = 0;
   enigma = 0;
   posts: Post[];
-  sortMode = SortMode.Enigma;
+  sortMode = SortMode.Date;
   language = Language.En;
   profile: Profile;
   sub: Subscription;

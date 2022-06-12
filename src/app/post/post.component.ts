@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core'; 
-import { AlertController, IonGrid } from '@ionic/angular';
-import { LikeType, Post, Comment, PropagandaService, SortMode, GetMode } from '../services/propaganda.service';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'; 
+import { AlertController, IonGrid, IonTextarea } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { LikeType, Post, Comment, PropagandaService, SortMode, GetMode, Profile } from '../services/propaganda.service';
 import { AlertService } from '../shared/alert.service';
 
 @Component({
@@ -8,17 +9,46 @@ import { AlertService } from '../shared/alert.service';
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
 })
-export class PostComponent implements OnInit {
+export class PostComponent implements OnInit, OnDestroy{
 
   @Input() post: Post;
   comments: Comment[];
   commentsOpen = false;
+  sub: Subscription;
+  profile: Profile;
 
   constructor(private propaganda:PropagandaService,
     private alert: AlertService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.sub = this.propaganda.profileCallback.subscribe((profile) => {
+      this.profile = profile;
+    })
+  }
  
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+  
+  sendComment(elem: IonTextarea) {
+    console.log(elem.value);
+    this.propaganda.createComment(this.post.id, elem.value, false).subscribe((commentId) => {
+      if(!commentId) {
+        this.alert.show("Error", null, "Impossible to send comment", ["OK"]);
+        return;
+      }
+
+      this.propaganda.getComments(GetMode.Range, commentId, this.post.id, 0).subscribe((response)=>{
+        if(response.success)
+          this.comments = response.comments;
+        
+        this.commentsOpen = true;
+      });
+      
+    })
+    elem.value = "";
+  }
+
   onClickComments() {
 
     if(this.commentsOpen){ 
