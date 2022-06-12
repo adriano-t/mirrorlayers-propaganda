@@ -1,0 +1,7 @@
+{
+  "name": "Propaganda",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
