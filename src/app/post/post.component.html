@@ -4,23 +4,44 @@
    -->
   <ion-grid>
     <ion-row>
-      <ion-col size-xs="3">
+      <ion-col class="avatar-column">
         <ion-avatar>
           <img [src]="post.avatar | avatar">
         </ion-avatar>
       </ion-col> 
-      <ion-col size-xs="6">
-        <h5><b>{{post.name}}</b></h5>
-        <ion-text>{{post.time}}</ion-text>
+      <ion-col size-xs="7"  class="ion-padding">
+        <ion-text color="primary" class="nickname">{{post.name}}</ion-text><br/>
+        <ion-text>{{post.time}}</ion-text> <br/>
+        <ion-text color="tertiary">Enigma {{post.enigma + "." + post.section}}</ion-text> <br/>
       </ion-col>
-    </ion-row>
-    <h1></h1>
+
+      <ion-col size-xs="1">
+        <ion-button fill="clear">
+          <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+        </ion-button>
+      </ion-col>
+      
+    </ion-row> 
     <ion-row>
       <ion-col size-xs="12">
         <ion-text>{{post.message}}</ion-text>
-      </ion-col>  
+      </ion-col> 
     </ion-row>
-    
+
+    <ion-row *ngIf="post.preview">
+      <ion-col size-xs="12"> 
+         
+      <ion-img [src]="'https://mirrorlayers.com/propaganda/uploads/' + post.filename + '.jpg'" ></ion-img>
+      
+      </ion-col> 
+    </ion-row>
+
+    <ion-row *ngIf="!post.preview && post.filename_original">
+      <ion-col size-xs="12"> 
+         <ion-chip><ion-icon name="attach" color="primary"></ion-icon><ion-label>{{post.filename_original}}</ion-label></ion-chip>
+      </ion-col> 
+    </ion-row>
+
     <ion-row>
       <ion-buttons> 
         <ion-button (click)="onClickLike()">
@@ -32,20 +53,46 @@
           <ion-icon [name]="post.comments_count ? 'chatbubbles' : 'chatbubble-ellipses-outline'"></ion-icon>
           <ion-text>{{post.comments_count || ''}}</ion-text>
         </ion-button>
+
+        
+        <ion-button (click)="onClickFollow()">
+          <ion-icon [name]="post.followed ? 'star' : 'star-outline'"></ion-icon>
+        </ion-button>
+
       </ion-buttons>
     </ion-row>
-  </ion-grid>
-<!-- 
-  <ion-card-header>
-    <ion-avatar>
-      <img [src]="post.avatar | avatar">
-    </ion-avatar>
-    <ion-card-subtitle>{{post.time}}</ion-card-subtitle>
-    <ion-card-title>{{post.name}}</ion-card-title>
-  </ion-card-header>
-  <ion-card-content>
-    {{post.message}}
-  </ion-card-content> -->
+    <ion-row *ngIf="commentsOpen">
+      <ion-col> 
+        
+        <ion-grid class="ion-no-margin ion-no-padding">
+
+          <!-- POST -->
+          <ion-row *ngFor="let comment of comments">
+            <ion-col size-xs="12" class="ion-no-margin ion-no-padding">
+              <app-comment [comment]="comment"></app-comment>
+            </ion-col>
+          </ion-row>
+
+          <!-- TODO MOVE TO A COMPONENT -->
+           <ion-row >
+            <ion-item>
+            <ion-avatar slot="start" >
+              <img [src]="post.avatar | avatar">
+            </ion-avatar>
+            <ion-textarea placeholder="Write something..."></ion-textarea>
+            <ion-button fill="clear" class="ion-justify-content-start">
+              <ion-icon slot="icon-only" name="send"></ion-icon> 
+            </ion-button> 
+          </ion-item>
+           </ion-row> 
+            
+             
+
+
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid> 
 </ion-card>
 
 <ion-card *ngIf="!post">

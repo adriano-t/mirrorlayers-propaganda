@@ -1,0 +1,60 @@
+<ion-card *ngIf="comment" >
+  <ion-grid>
+    <ion-row>
+      <ion-col class="avatar-column">
+        <ion-thumbnail>
+          <img [src]="comment.avatar | avatar">
+        </ion-thumbnail>
+      </ion-col> 
+
+      <ion-col size-xs="7" class="user-column">
+        <ion-text color="primary" class="nickname">{{comment.name}}</ion-text><br/>
+        <ion-text>{{comment.time}}</ion-text> <br/>
+        <ion-text color="tertiary">Enigma {{comment.enigma + "." + comment.section}}</ion-text> <br/>
+      </ion-col>
+      
+      <ion-col size-xs="2">
+        <ion-button fill="clear">
+          <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+    </ion-row> 
+    <ion-row>
+      <ion-col size-xs="12">
+        <ion-text>{{comment.message}}</ion-text>
+      </ion-col> 
+    </ion-row>
+
+    <ion-row *ngIf="comment.preview">
+      <ion-col size-xs="12"> 
+          
+      <ion-img [src]="'https://mirrorlayers.com/propaganda/uploads/' + comment.filename + '.jpg'" ></ion-img>
+      
+      </ion-col> 
+    </ion-row>
+
+    <ion-row *ngIf="!comment.preview && comment.filename_original">
+      <ion-col size-xs="12"> 
+          <ion-chip><ion-icon name="document-attach-outline"></ion-icon><ion-label>{{comment.filename_original}}</ion-label></ion-chip>
+      </ion-col> 
+    </ion-row>
+
+    <ion-row>
+      <ion-buttons> 
+        <ion-button (click)="onClickLike()">
+          <ion-icon [name]="comment.liked ? 'heart' : 'heart-outline'"></ion-icon>
+          <ion-text>{{comment.likes || ''}}</ion-text>
+        </ion-button> 
+
+      </ion-buttons>
+    </ion-row>
+      
+  </ion-grid> 
+</ion-card>
+
+<ion-card *ngIf="!comment">
+  <ion-card-content>
+    Loading
+  </ion-card-content>
+</ion-card>

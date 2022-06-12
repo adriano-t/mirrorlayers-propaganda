@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { NavController } from '@ionic/angular';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { take, map, tap} from 'rxjs/operators'
 
 
@@ -10,9 +12,13 @@ import { take, map, tap} from 'rxjs/operators'
 export class PropagandaService {
 
   private loggedIn = false;
-  private userData: LoginResult;
+  private profile: Profile;
 
-  constructor(private http: HttpClient) { }
+  profileCallback = new BehaviorSubject<Profile>(null);
+
+  constructor(
+    private http: HttpClient,
+    private nav: NavController) { }
 
   private readonly filenameRegister = "register.php";
   private readonly filenameLogin = "login.php";
@@ -45,6 +51,7 @@ export class PropagandaService {
   getAvatar(index: number): string {
     return "https://mirrorlayers.com/propaganda/avatars/" + index + ".png"
   }
+ 
 
   public login ()  
   {
@@ -66,14 +73,35 @@ export class PropagandaService {
           if(!data.success) {
             if(data.errors && data.errors[0] === "ERROR_ALREADY_LOGGED_IN"){
               this.loggedIn = true; 
+              
+              console.log(data.errors)
+              this.getProfile(612).subscribe((response) => {
+                this.profile = response.profile;
+                this.profileCallback.next(this.profile);
+              });
+
               return true;
             };
-            console.log(data.errors)
             return false;
           }
 
           this.loggedIn = true;
-          this.userData = data;
+          this.profile = {
+            avatar: data.avatar,
+            creationDate: data.creation_date,
+            enigma: data.enigma,
+            gender: data.gender,
+            id: data.id,
+            info: data.info,
+            lastLogin: null,
+            likes: data.likes,
+            likes_given: 0,
+            likes_received: 0,
+            name: data.name,
+            section: data.section
+          };
+          console.log("emitting");
+          this.profileCallback.next(this.profile);
           return true;
         }
       )
@@ -92,7 +120,7 @@ export class PropagandaService {
       map(
         (data:LogoutResult) : boolean => {
           this.loggedIn = false;
-          this.userData = null;
+          this.profile = null;
           return data.success;
         }
       )
@@ -126,13 +154,45 @@ export class PropagandaService {
         (data) => {
           if(!data.success) {
             console.log(data.errors)
+            this.nav.navigateRoot(['/auth']);
             return;
           } 
  
         }
       )
     );
+  }
+ 
 
+  getComments (mode: GetMode, id: number, postId: number, author: number)
+  {
+    const requestData: GetCommentsInfo = {
+        "id": id,
+        "author": author,
+        "mode": mode, 
+        "postid": postId
+    }
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(requestData));
+
+    return this.http
+    .post<GetCommentsResult>(
+      this.baseAddress1 + this.filenameGetComments + "?dev-test=true", 
+      formData, 
+      {withCredentials: true, })
+    .pipe(
+      take(1),
+      tap(
+        (data) => {
+          if(!data.success) {
+            console.log(data.errors);
+            this.nav.navigateRoot(['/auth']);
+            return;
+          } 
+ 
+        }
+      )
+    );
   }
 
   like(id: number, type: LikeType, add: boolean) {
@@ -154,7 +214,8 @@ export class PropagandaService {
       map(
         (data) : boolean => { 
           if(!data.success) {
-            console.log(data.errors)
+            console.log(data.errors);
+            this.nav.navigateRoot(['/auth']);
             return false;
           }
  
@@ -164,6 +225,24 @@ export class PropagandaService {
     );
   }  
 
+  
+  getProfile(id: number) {
+  const jsonData : GetProfileInfo = {
+    "id": id,
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(jsonData));
+
+    return this.http
+    .post<GetProfileResult>(
+      this.baseAddress1 + this.filenameProfile + "?dev-test=true", 
+      formData, 
+      {withCredentials: true, })
+    .pipe(
+      take(1)
+    );
+  }
+  
   // FUNCTION_NAME() {
   // const jsonData : DATA_INFO = {
   //   "a": a,
@@ -183,6 +262,7 @@ export class PropagandaService {
   //         console.log(data);
   //         if(!data.success) {
   //           console.log(data.errors)
+  //           this.nav.navigateRoot(['/auth']);
   //           return false;
   //         }
  
@@ -229,6 +309,21 @@ export enum Language {
 ///////////////////////////
 // Output
 ///////////////////////////
+
+export interface Profile {
+  id: number;
+  name: string;
+  info: string;
+  gender: number;
+  avatar: number;
+  enigma: number;
+  section: number;
+  likes: number;
+  likes_received: number;
+  likes_given: number;
+  lastLogin: string;
+  creationDate: string;
+}
 
 export interface Post {
   id: number;
@@ -342,6 +437,12 @@ export interface GetCommentsResult extends Result {
   comments: Comment[];
 }
 
+ 
+export interface GetProfileResult extends Result
+{
+    profile: Profile;
+}
+
 export interface LikeResult extends Result {
 
 }
@@ -392,7 +493,7 @@ export interface GetPostsInfo {
   author: number;
   author_followed: boolean;
   enigma: number;
-  mode: string;
+  mode: GetMode;
   language: string;
   sort_mode: number;
 }
@@ -401,7 +502,7 @@ export interface GetCommentsInfo {
   id: number;
   author: number;
   postid: number;
-  mode: string;
+  mode: GetMode;
 }
 
 export interface LikeInfo {

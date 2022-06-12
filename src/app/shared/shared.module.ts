@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PostComponent } from '../post/post.component';
 import { IonicModule } from '@ionic/angular';
 import { AvatarPipe } from '../avatar.pipe';
+import { CommentComponent } from '../comment/comment.component';
 @NgModule({
   imports: [
     CommonModule, 
@@ -11,10 +12,12 @@ import { AvatarPipe } from '../avatar.pipe';
   ],
   declarations: [
     PostComponent, 
+    CommentComponent,
     AvatarPipe
   ],
   exports: [
     PostComponent, 
+    CommentComponent,
     AvatarPipe,
   ]
 })

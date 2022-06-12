@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'; 
-import { AlertController } from '@ionic/angular';
-import { LikeType, Post, PropagandaService } from '../services/propaganda.service';
+import { Component, Input, OnInit, ViewChild } from '@angular/core'; 
+import { AlertController, IonGrid } from '@ionic/angular';
+import { LikeType, Post, Comment, PropagandaService, SortMode, GetMode } from '../services/propaganda.service';
 import { AlertService } from '../shared/alert.service';
 
 @Component({
@@ -11,6 +11,8 @@ import { AlertService } from '../shared/alert.service';
 export class PostComponent implements OnInit {
 
   @Input() post: Post;
+  comments: Comment[];
+  commentsOpen = false;
 
   constructor(private propaganda:PropagandaService,
     private alert: AlertService) { }
@@ -18,16 +20,28 @@ export class PostComponent implements OnInit {
   ngOnInit() {}
  
   onClickComments() {
-    //this.propaganda.loadComments().subscribe();
+
+    if(this.commentsOpen){ 
+      this.commentsOpen = false;
+      return;
+    }
+
+    this.propaganda.getComments(GetMode.Begin, 0, this.post.id, 0).subscribe((response)=>{
+      if(response.success)
+        this.comments = response.comments;
+      
+      this.commentsOpen = true;
+    });
   }
 
-  async onClickLike() {
+  onClickLike() {
     if(this.post.liked)
       return;
 
     this.propaganda.like(this.post.id, LikeType.Post, true).subscribe((success) => {
       if(success) {
         this.post.liked = true;
+        this.post.likes++;
       } else {
         this.alert.show( 
           'Error',
@@ -39,4 +53,8 @@ export class PostComponent implements OnInit {
       }
     });
   }
+
+  onClickFollow() {
+
+  } 
 }

@@ -1,0 +1,70 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Home
+    </ion-title>
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    
+    <ion-select value="0" slot="end" class="ion-padding" (ionChange)="onChangeEnigma($event)">
+      <ion-select-option value="0">Enigma 0</ion-select-option>
+      <ion-select-option value="1">Enigma 1</ion-select-option>
+      <ion-select-option value="2">Enigma 2</ion-select-option>
+      <ion-select-option value="3">Enigma 3</ion-select-option>
+      <ion-select-option value="4">Enigma 4</ion-select-option>
+    </ion-select>
+    
+
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+<ion-grid>
+  
+  <ion-row>
+    <ion-col> 
+      <ion-segment (ionChange)="segmentChanged($event)" value="enigma">
+        <ion-segment-button value="enigma">
+          <ion-label>Sort by Enigma</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="date">
+          <ion-label>Sort by Date</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-col>
+  </ion-row>
+  
+
+  <ion-row>
+    <ion-col size-md="8" offset-md="2"> 
+      <app-post *ngFor="let post of posts" [post]="post"></app-post>
+    </ion-col>
+  </ion-row>
+  
+  <ion-row>
+    <ion-col size-xs="4">
+      <ion-button 
+      (click)="onClickPreviousPage()"
+      color="secondary"
+      [disabled]="page <= 0" 
+      expand="block"><ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-col> 
+    <ion-col size-xs="4" class="ion-text-center ion-padding-vertical">
+      <ion-text >Page {{page}}</ion-text>
+    </ion-col> 
+    <ion-col size-xs="4">
+      <ion-button  
+      (click)="onClickNextPage()"
+      color="secondary"
+      [disabled]="" 
+      expand="block"><ion-icon name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-col> 
+  </ion-row>
+</ion-grid>
+</ion-content>
