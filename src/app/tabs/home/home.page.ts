@@ -13,6 +13,7 @@ export class HomePage implements OnInit, OnDestroy{
   @ViewChild(IonContent) content;
   page = 0;
   enigma = 0;
+  enigmas: number[] = []
   posts: Post[];
   sortMode = SortMode.Date;
   language = Language.En;
@@ -24,6 +25,11 @@ export class HomePage implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.sub = this.propaganda.profileCallback.subscribe((data) => {
       this.profile = data;
+      console.log(data);
+      if(data == null)
+        return;
+      this.enigmas = [].constructor(data.enigma + 1);
+      console.log(this.enigmas);
     });  
   }
 

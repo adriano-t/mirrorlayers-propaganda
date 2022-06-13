@@ -8,12 +8,8 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     
-    <ion-select value="0" slot="end" class="ion-padding" (ionChange)="onChangeEnigma($event)">
-      <ion-select-option value="0">Enigma 0</ion-select-option>
-      <ion-select-option value="1">Enigma 1</ion-select-option>
-      <ion-select-option value="2">Enigma 2</ion-select-option>
-      <ion-select-option value="3">Enigma 3</ion-select-option>
-      <ion-select-option value="4">Enigma 4</ion-select-option>
+    <ion-select [value]="enigma.toString()" slot="end" class="ion-padding" (ionChange)="onChangeEnigma($event)">
+      <ion-select-option *ngFor="let en of enigmas; let i = index" [value]="i.toString()" >Enigma {{i}}</ion-select-option>
     </ion-select>
     
 
