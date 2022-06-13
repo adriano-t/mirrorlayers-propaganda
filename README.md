@@ -16,3 +16,8 @@ Propaganda Client
 
 - Run on Browser
     ionic serve
+
+## Potential issues
+- if after installation shows
+    Cannot find module '.../iconv-lite/lib/index.js'. Please verify that the package.json has a valid "main" entry
+    Delete the node_modules, package-lock.json and re-run npm i
