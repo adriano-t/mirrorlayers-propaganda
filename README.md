@@ -1,6 +1,16 @@
 # mirrorlayers-propaganda
 Propaganda Client
 
+## TODO
+- Add loader on send comment
+- dismiss loader in case of failure
+- show pages on the url and retrieve that
+- follow button
+- follow on comment
+- profile
+- notifications
+- clicking on a profile picture will open his profile
+
 ## Requirements
 
 > tested on Node 16

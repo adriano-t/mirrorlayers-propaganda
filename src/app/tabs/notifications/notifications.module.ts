@@ -7,6 +7,7 @@ import { NotificationsPage } from './notifications.page';
 import { ExploreContainerComponentModule } from '../../explore-container/explore-container.module';
 
 import { NotificationsPageRoutingModule } from './notifications-routing.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { NotificationsPageRoutingModule } from './notifications-routing.module';
     ExploreContainerComponentModule,
     RouterModule.forChild([{ path: '', component: NotificationsPage }]),
     NotificationsPageRoutingModule,
+    SharedModule
   ],
   declarations: [NotificationsPage]
 })

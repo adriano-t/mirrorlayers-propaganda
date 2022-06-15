@@ -332,6 +332,54 @@ export class PropagandaService {
       )
     );
   }  
+  
+  searchProfile(name: string) {
+  const jsonData : SearchInfo = {
+    "name": name,
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(jsonData));
+  return this.http
+    .post<SearchResult>(
+      this.baseAddress1 + this.filenameSearch + "?dev-test=true", 
+      formData, 
+      {withCredentials: true, })
+    .pipe(
+      take(1)
+    );
+  }  
+
+  
+  follow(postId: number, add: boolean) {
+  const jsonData : FollowInfo = {
+    "id": postId,
+    "add": add,
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(jsonData));
+
+    return this.http
+    .post<Result>(
+      this.baseAddress1 + this.filenameFollow + "?dev-test=true", 
+      formData, 
+      {withCredentials: true, })
+    .pipe(
+      take(1),
+      map(
+        (data) : boolean => {
+          console.log(data);
+          if(!data.success) {
+            console.log(data.errors);
+            this.nav.navigateRoot(['/auth']);
+            return false;
+          }
+ 
+          return true;
+        }
+      )
+    );
+  }  
+
 
   // FUNCTION_NAME() {
   // const jsonData : DATA_INFO = {
@@ -477,7 +525,7 @@ export interface Notification {
   postid: number;
   commentid: number;
   message: string;
-  type: string;
+  type: NotificationType;
 }
 
 export interface Result {
@@ -500,6 +548,10 @@ export interface LoginResult extends Result {
   likes: number;
   creation_date: string;
   ban: string;
+}
+
+export interface SearchResult extends Result {
+  profiles: ProfileSearch[]
 }
 
 export interface LogoutResult extends Result {
@@ -649,3 +701,8 @@ export interface SetEnigmaInfo {
   section: number;
 }
 
+export enum NotificationType {
+  Comment = 0,
+  Like = 1,
+  Progress = 2,
+}

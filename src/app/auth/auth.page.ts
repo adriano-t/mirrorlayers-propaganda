@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 import { PropagandaService } from '../services/propaganda.service';
 
 @Component({
@@ -10,14 +10,27 @@ import { PropagandaService } from '../services/propaganda.service';
 export class AuthPage implements OnInit {
 
   constructor(private propa: PropagandaService,
-    private nav:NavController) { }
+    private nav:NavController,
+    private loader: LoadingController) { }
 
   ngOnInit() {
     
-    this.propa.login().subscribe((success) => { 
-      if(success)
-        this.nav.navigateForward("/"); 
-    });
+    this.loader.create({
+      message: "Logging in..."
+    }).then((el)=> {
+
+      el.present();
+
+      this.propa.login().subscribe((success) => { 
+        console.log("dismiss");
+        el.dismiss();
+        if(success)
+          this.nav.navigateForward("/");
+      },
+      (error)=>{
+        el.dismiss();
+      });
+    })
   }
 
   onClickLogin() {

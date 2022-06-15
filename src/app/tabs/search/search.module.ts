@@ -7,6 +7,7 @@ import { SearchPage } from './search.page';
 import { ExploreContainerComponentModule } from '../../explore-container/explore-container.module';
 
 import { SearchPageRoutingModule } from './search-routing.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { SearchPageRoutingModule } from './search-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    SearchPageRoutingModule
+    SearchPageRoutingModule,
+    SharedModule,
   ],
   declarations: [SearchPage]
 })

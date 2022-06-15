@@ -12,8 +12,6 @@
       <ion-select-option *ngFor="let en of enigmas; let i = index" [value]="i.toString()" >Enigma {{i}}</ion-select-option>
     </ion-select>
     
-
-
   </ion-toolbar>
 </ion-header>
 
@@ -38,11 +36,14 @@
   <ion-row>
     <ion-col size-md="8" offset-md="2"> 
       <app-post *ngFor="let post of posts" [post]="post"></app-post>
+      <div class="ion-text-center">
+        <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+      </div>
     </ion-col>
   </ion-row>
   
-  <ion-row>
-    <ion-col size-xs="4">
+  <ion-row  *ngIf="!isLoading">
+    <ion-col size-md="8" offset-md="2"> 
       <ion-button 
       (click)="onClickPreviousPage()"
       color="secondary"
