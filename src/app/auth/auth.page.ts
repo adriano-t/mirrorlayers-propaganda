@@ -32,6 +32,7 @@ export class AuthPage implements OnInit {
         }
       },
       (error)=>{
+        console.log(error);
         el.dismiss();
       });
     })

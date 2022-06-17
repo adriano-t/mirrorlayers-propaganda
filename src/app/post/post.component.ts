@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core'; 
-import { ActionSheetController, AlertController, IonGrid, IonTextarea, LoadingController, NavController } from '@ionic/angular';
+import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ActionSheetController, IonTextarea, LoadingController, NavController } from '@ionic/angular';
 import { Subject, Subscription } from 'rxjs';
-import { LikeType, Post, Comment, PropagandaService, SortMode, GetMode, Profile } from '../services/propaganda.service';
+import { Comment, GetMode, LikeType, Post, Profile, PropagandaService } from '../services/propaganda.service';
 import { AlertService } from '../shared/alert.service';
 
 @Component({
@@ -187,7 +187,7 @@ export class PostComponent implements OnInit, OnDestroy{
       message: "Loading...",
     }).then((el)=>{
       el.present();
-      this.propaganda.follow(this.post.id, !this.post.followed).subscribe((success) =>{
+      this.propaganda.follow(this.post.id, !this.post.followed).subscribe(() =>{
           el.dismiss();
           this.post.followed = !this.post.followed;
         });

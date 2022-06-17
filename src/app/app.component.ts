@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { LoginResult, Profile, PropagandaService } from './services/propaganda.service';
+import { Profile, PropagandaService } from './services/propaganda.service';
 
 @Component({
   selector: 'app-root',

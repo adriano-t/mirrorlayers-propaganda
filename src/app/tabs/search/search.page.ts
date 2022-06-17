@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonSearchbar, NavController } from '@ionic/angular';
-import { GetProfileResult, Profile, ProfileSearch, PropagandaService, SearchResult } from 'src/app/services/propaganda.service';
+import { ProfileSearch, PropagandaService, SearchResult } from 'src/app/services/propaganda.service';
 
 @Component({
   selector: 'app-search',

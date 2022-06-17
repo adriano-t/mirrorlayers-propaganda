@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { take, map, tap} from 'rxjs/operators'
+import { BehaviorSubject } from 'rxjs';
+import { map, take, tap } from 'rxjs/operators';
 
 
 
@@ -20,29 +20,29 @@ export class PropagandaService {
     private http: HttpClient,
     private nav: NavController) { }
 
-  private readonly filenameRegister = "register.php";
+  // private readonly filenameRegister = "register.php";
   private readonly filenameLogin = "login.php";
   private readonly filenameLogout = "logout.php";
-  private readonly filenameCreatePost = "post.php";
+  // private readonly filenameCreatePost = "post.php";
   private readonly filenameCreateComment = "comment.php";
   private readonly filenameDelete = "delete.php";
   private readonly filenameGetPosts = "getposts.php";
   private readonly filenameGetComments = "getcomments.php";
   private readonly filenameLike = "like.php";
-  private readonly filenameAddLikes = "addlikes.php";
+  // private readonly filenameAddLikes = "addlikes.php";
   private readonly filenameFollow = "follow.php";
   private readonly filenameProfile = "getprofile.php";
-  private readonly filenameEditProfile = "editprofile.php";
+  // private readonly filenameEditProfile = "editprofile.php";
   private readonly filenameSearch = "search.php";
   private readonly filenameGetNotifications = "getnotifications.php";
-  private readonly filenameDeleteNotification = "deletenotification.php";
-  private readonly filenameReport = "report.php";
-  private readonly filenameEnigma = "enigma.php";
-  private readonly filenameDownload = "download.php";
-  private readonly filenameGetVariables = "getvariables.php";
+  // private readonly filenameDeleteNotification = "deletenotification.php";
+  // private readonly filenameReport = "report.php";
+  // private readonly filenameEnigma = "enigma.php";
+  // private readonly filenameDownload = "download.php";
+  // private readonly filenameGetVariables = "getvariables.php";
 
   private readonly baseAddress1 = "https://mirrorlayers.com/api/"; 
-  private readonly baseAddress2 = "https://mirrorlayers.altervista.org/api/";
+  // private readonly baseAddress2 = "https://mirrorlayers.altervista.org/api/";
 
   public isLogged(){
     return this.loggedIn;

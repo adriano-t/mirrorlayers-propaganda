@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GetMode, Language, Post, PropagandaService, SortMode } from '../services/propaganda.service';
 import { PostComponent } from './post.component';

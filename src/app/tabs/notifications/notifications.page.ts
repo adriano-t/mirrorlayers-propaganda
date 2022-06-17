@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationsService } from 'src/app/services/notifications.service';
-import { GetNotificationsResult, Notification, NotificationType, PropagandaService } from 'src/app/services/propaganda.service';
+import { Notification, NotificationType } from 'src/app/services/propaganda.service';
 
 @Component({
   selector: 'app-notifications',
@@ -14,7 +14,6 @@ export class NotificationsPage implements OnInit {
   maxLength = 30;
 
   constructor(
-    private propaganda: PropagandaService,
     private notifService: NotificationsService,
   ) {}
 
@@ -48,11 +47,11 @@ export class NotificationsPage implements OnInit {
   }
 
   onClick(notification: Notification) {
-    
+    console.log(notification);
   }
 
   onClickDelete(notification: Notification) {
-
+    console.log(notification);
   }
 
 }

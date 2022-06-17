@@ -81,5 +81,27 @@
 
       </ion-col>
     </ion-row>
+
+    <ion-row>
+      <ion-col> 
+        <ion-segment (ionChange)="segmentChanged($event)" value="date">
+          <ion-segment-button value="posts">
+            <ion-label>Posts</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="comments">
+            <ion-label>Comments</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="comments">
+            <ion-label>Followed</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="posts && posts.length > 0">
+      <ion-col>
+        <app-post *ngFor="let post of posts" [post]="post"></app-post>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 </ion-content>

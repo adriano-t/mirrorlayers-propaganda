@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GetProfileResult, Profile, PropagandaService } from '../services/propaganda.service';
+import { Post, Profile, PropagandaService } from '../services/propaganda.service';
 
 @Component({
   selector: 'app-profile',
@@ -10,6 +10,7 @@ import { GetProfileResult, Profile, PropagandaService } from '../services/propag
 export class ProfilePage implements OnInit {
 
   profile: Profile;
+  posts: Post[];
 
   genders = [
     "Male",

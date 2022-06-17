@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActionSheetController, IonContent, IonGrid, LoadingController, NavController } from '@ionic/angular';
+import { IonContent, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { GetMode, Language, LoginResult, Post, Profile, PropagandaService, SortMode } from '../../services/propaganda.service';
+import { GetMode, Language, Post, Profile, PropagandaService, SortMode } from '../../services/propaganda.service';
 
 @Component({
   selector: 'app-homepage',
