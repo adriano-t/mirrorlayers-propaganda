@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { LoadingController, NavController } from '@ionic/angular';
 import { PropagandaService } from '../services/propaganda.service';
 
@@ -11,21 +12,24 @@ export class AuthPage implements OnInit {
 
   constructor(private propa: PropagandaService,
     private nav:NavController,
-    private loader: LoadingController) { }
+    private loader: LoadingController,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    
+   
     this.loader.create({
       message: "Logging in..."
     }).then((el)=> {
-
+      
       el.present();
 
       this.propa.login().subscribe((success) => { 
-        console.log("dismiss");
         el.dismiss();
-        if(success)
-          this.nav.navigateForward("/");
+        if(success) {
+          const params = this.route.snapshot.queryParams;
+          console.log(params);
+          this.nav.navigateForward(params.redirect || "/");
+        }
       },
       (error)=>{
         el.dismiss();

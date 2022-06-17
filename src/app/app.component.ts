@@ -21,7 +21,6 @@ export class AppComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
       this.sub = this.propaganda.profileCallback.subscribe((data) => {
         this.profile = data;
-        console.log("got it", data);
       });  
     }
   

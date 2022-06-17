@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActionSheetController, IonContent, IonGrid, LoadingController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { ActionSheetController, IonContent, IonGrid, LoadingController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { GetMode, Language, LoginResult, Post, Profile, PropagandaService, SortMode } from '../../services/propaganda.service';
 
@@ -21,9 +22,14 @@ export class HomePage implements OnInit, OnDestroy{
   sub: Subscription;
   isLoading = false;
 
-  constructor(private propaganda: PropagandaService) {}
+  constructor(
+    private propaganda: PropagandaService,
+    private route: ActivatedRoute,
+    private nav: NavController,
+  ) {}
     
   ngOnInit(): void {
+    this.page = this.route.snapshot.params.page || 0;
     this.sub = this.propaganda.profileCallback.subscribe((data) => {
       this.profile = data;
       if(data == null)
@@ -61,34 +67,40 @@ export class HomePage implements OnInit, OnDestroy{
     
     let currentPage = this.page; 
     currentPage++;
-    this.propaganda.getPosts(GetMode.Page, 0, currentPage, this.enigma, 0, false, this.language, this.sortMode).subscribe((result) => {
-      if(result.success) { 
-        this.posts = result.posts;
-        this.page = currentPage;
-        this.content.scrollToTop();
-      } else {
-        //@Todo show error
-        console.log("error", result.errors);
-      }
-    });
+    
+    this.nav.navigateForward(['/tabs/home', currentPage]);
+    
+    // this.propaganda.getPosts(GetMode.Page, 0, currentPage, this.enigma, 0, false, this.language, this.sortMode).subscribe((result) => {
+    //   if(result.success) { 
+    //     this.posts = result.posts;
+    //     this.page = currentPage;
+    //     this.content.scrollToTop();
+    //   } else {
+    //     //@Todo show error
+    //     console.log("error", result.errors);
+    //   }
+    // });
     
   }
 
   onClickPreviousPage() {
     let currentPage = this.page;
-    if(currentPage > 0)
-      currentPage--;
+    if(currentPage <= 0)
+      return;
+
+    currentPage--;
+    this.nav.navigateBack(['/tabs/home', currentPage]);
     
-    this.propaganda.getPosts(GetMode.Page, 0, currentPage, this.enigma, 0, false, this.language, this.sortMode).subscribe((result) => {
-      if(result.success) { 
-        this.posts = result.posts;
-        this.page = currentPage;
-        this.content.scrollToTop();
-      } else {
-        //@Todo show error
-        console.log("error", result.errors);
-      }
-    });
+    // this.propaganda.getPosts(GetMode.Page, 0, currentPage, this.enigma, 0, false, this.language, this.sortMode).subscribe((result) => {
+    //   if(result.success) { 
+    //     this.posts = result.posts;
+    //     this.page = currentPage;
+    //     this.content.scrollToTop();
+    //   } else {
+    //     //@Todo show error
+    //     console.log("error", result.errors);
+    //   }
+    // });
   }
 
   onChangeEnigma(event){

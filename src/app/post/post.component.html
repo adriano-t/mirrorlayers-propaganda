@@ -55,7 +55,6 @@
         <ion-button (click)="onClickFollow()">
           <ion-icon [name]="post.followed ? 'star' : 'star-outline'"></ion-icon>
         </ion-button>
-
       </ion-buttons>
     </ion-row>
     <ion-row *ngIf="commentsOpen">
@@ -82,7 +81,7 @@
            <ion-row >
             <ion-item class="ion-align-items-center">
             <ion-avatar slot="start" >
-              <img [src]="profile.avatar | avatar">
+              <img [src]="profile?.avatar | avatar">
             </ion-avatar>
             <ion-textarea placeholder="Write something..." #commentField></ion-textarea>
             <ion-button fill="clear" (click)="sendComment(commentField)">

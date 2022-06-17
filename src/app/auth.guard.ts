@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PropagandaService } from './services/propaganda.service';
 
@@ -16,8 +16,11 @@ export class AuthGuard implements CanActivateChild {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree { 
     if(this.propaganda.isLogged())
       return true;
-    else
-      return this.router.createUrlTree(['/auth']);
+    else {  
+      return this.router.createUrlTree(['/auth'], {queryParams: {
+        redirect: state.url
+      }}) ;
+    }
   }
   
 }

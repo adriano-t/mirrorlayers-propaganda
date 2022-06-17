@@ -10,6 +10,7 @@ Propaganda Client
 - profile
 - notifications
 - clicking on a profile picture will open his profile
+- load more comments button
 
 ## Requirements
 

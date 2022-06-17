@@ -72,8 +72,6 @@ export class PropagandaService {
           if(!data.success) {
             if(data.errors && data.errors[0] === "ERROR_ALREADY_LOGGED_IN"){
               this.loggedIn = true; 
-              
-              console.log(data.errors)
               this.getProfile(612).subscribe((response) => {
                 this.profile = response.profile;
                 this.profileCallback.next(this.profile);
@@ -161,7 +159,6 @@ export class PropagandaService {
       )
     );
   }
- 
 
   getComments (mode: GetMode, id: number, postId: number, author: number)
   {
@@ -702,7 +699,7 @@ export interface SetEnigmaInfo {
 }
 
 export enum NotificationType {
-  Comment = 0,
-  Like = 1,
-  Progress = 2,
+  Comment = "0",
+  Like = "1",
+  Progress = "2",
 }

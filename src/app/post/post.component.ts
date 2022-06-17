@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'; 
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core'; 
 import { ActionSheetController, AlertController, IonGrid, IonTextarea, LoadingController, NavController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { LikeType, Post, Comment, PropagandaService, SortMode, GetMode, Profile } from '../services/propaganda.service';
 import { AlertService } from '../shared/alert.service';
 
@@ -12,6 +12,7 @@ import { AlertService } from '../shared/alert.service';
 export class PostComponent implements OnInit, OnDestroy{
 
   @Input() post: Post;
+  @Output() onShow = new Subject();
   comments: Comment[];
   commentsOpen = false;
   sub: Subscription;
@@ -29,12 +30,14 @@ export class PostComponent implements OnInit, OnDestroy{
   ngOnInit() {
     this.sub = this.propaganda.profileCallback.subscribe((profile) => {
       this.profile = profile;
-    })
+      this.onShow.next(null);
+    });
   }
  
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
+
   
   reloadComments(mode: GetMode, commentId: number = 0) {
     this.comments = [];
@@ -48,13 +51,19 @@ export class PostComponent implements OnInit, OnDestroy{
     });
   }
 
+  loadLatestComments(show: boolean) {
+    if(show)
+      this.commentsOpen = true;
+      
+  }
+
   onCommentDelete(){
     this.reloadComments(GetMode.Begin);
     this.post.comments_count--;
   }
 
   sendComment(elem: IonTextarea) {
-    console.log(elem.value);
+    
     this.propaganda.createComment(this.post.id, elem.value, false).subscribe((commentId) => {
       if(!commentId) {
         this.alert.show("Error", null, "Impossible to send comment", ["OK"]);
@@ -67,7 +76,7 @@ export class PostComponent implements OnInit, OnDestroy{
     elem.value = "";
   }
 
-  onClickComments() {
+  public onClickComments() {
 
     if(this.commentsOpen){ 
       this.commentsOpen = false;
@@ -160,9 +169,7 @@ export class PostComponent implements OnInit, OnDestroy{
       text: 'Cancel',
       icon: 'close',
       role: 'cancel',
-      handler: () => {
-        console.log('Cancel clicked');
-      }
+      handler: () => { }
     });
 
     const actionSheet = await this.actionSheetController.create({

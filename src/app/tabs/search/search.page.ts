@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonSearchbar } from '@ionic/angular';
+import { IonSearchbar, NavController } from '@ionic/angular';
 import { GetProfileResult, Profile, ProfileSearch, PropagandaService, SearchResult } from 'src/app/services/propaganda.service';
 
 @Component({
@@ -14,7 +14,8 @@ export class SearchPage {
   minChars = 2;
 
   constructor(
-    private propaganda: PropagandaService
+    private propaganda: PropagandaService,
+    private nav: NavController,
   ) {}
 
   onSearch(event){
@@ -37,5 +38,6 @@ export class SearchPage {
 
   onClick(profile) {
     console.log(profile);
+    this.nav.navigateForward(['/profile/', profile.id]);
   }
 }

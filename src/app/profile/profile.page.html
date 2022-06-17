@@ -1,0 +1,85 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Profile
+    </ion-title>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-grid>
+    <ion-row>
+      <ion-col size-sm="8" offset-sm="2">
+
+        <ion-card *ngIf="profile">
+          <ion-grid>
+            
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-avatar slot="start">
+                    <ion-img [src]="profile.avatar | avatar"></ion-img>
+                  </ion-avatar>
+                  <ion-text> {{profile.name}}</ion-text>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  {{profile.info? profile.info : "No description"}}
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col class="ion-no-padding">
+                <ion-chip>
+                  <b>Enigma</b>: {{profile.enigma + "." + profile.section }}
+                </ion-chip>
+              </ion-col>
+
+              <ion-col class="ion-no-padding">
+                <ion-chip>
+                  <b>Gender</b>: {{genders[profile.gender]}}
+                </ion-chip>
+              </ion-col>
+            </ion-row> 
+            
+            <ion-row>
+              <ion-col class="ion-no-padding">
+                <ion-chip>
+                  <ion-icon color="primary" name="heart"></ion-icon>
+                  <ion-text> <b>Given</b>: {{profile.likes_given}}</ion-text>
+                </ion-chip>
+              </ion-col>
+              
+              <ion-col class="ion-no-padding">
+                <ion-chip>
+                  <ion-icon color="primary" name="heart"></ion-icon>
+                  <ion-text> <b>Received</b>: {{profile.likes_received}}</ion-text>
+                </ion-chip>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col class="ion-no-padding">
+                <ion-chip>
+                  <b>Registered</b>: {{profile.creationDate | date}}
+                </ion-chip>
+              </ion-col>
+            </ion-row> 
+
+          </ion-grid>
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

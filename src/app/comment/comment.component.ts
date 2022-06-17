@@ -104,9 +104,7 @@ export class CommentComponent implements OnInit {
       text: 'Cancel',
       icon: 'close',
       role: 'cancel',
-      handler: () => {
-        console.log('Cancel clicked');
-      }
+      handler: () => {}
     });
 
     const actionSheet = await this.actionSheetController.create({
@@ -115,8 +113,8 @@ export class CommentComponent implements OnInit {
     });
     await actionSheet.present();
 
-    const { role, data } = await actionSheet.onDidDismiss();
-    console.log('onDidDismiss resolved with role and data', role, data);
+    // const { role, data } = await actionSheet.onDidDismiss();
+    // console.log('onDidDismiss resolved with role and data', role, data);
   }
 
   onClickOptions() {
