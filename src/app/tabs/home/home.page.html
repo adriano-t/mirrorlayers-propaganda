@@ -8,6 +8,10 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     
+    <ion-select [value]="getLanguageIndex()" slot="end" class="ion-padding" (ionChange)="onChangeLanguage($event)">
+      <ion-select-option *ngFor="let lang of languages; let i = index" [value]="i.toString()" >{{getLanguage(i)}}</ion-select-option>
+    </ion-select>
+
     <ion-select [value]="enigma.toString()" slot="end" class="ion-padding" (ionChange)="onChangeEnigma($event)">
       <ion-select-option *ngFor="let en of enigmas; let i = index" [value]="i.toString()" >Enigma {{i}}</ion-select-option>
     </ion-select>

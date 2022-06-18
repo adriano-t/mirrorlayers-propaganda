@@ -15,9 +15,28 @@ export class HomePage implements OnInit, OnDestroy{
   page = 0;
   enigma = 0;
   enigmas: number[] = []
+  languages: Language[] = [
+    Language.En,
+    Language.It,
+    Language.Es,
+    Language.Fr,
+    Language.De,
+    Language.Po,
+    Language.Ch,
+    Language.Ru,
+  ];
+  languagesNames: string[] = [
+    "English",
+    "Italian",
+    "Spanish",
+    "French",
+    "German",
+    "Portuguese",
+    "Chinese",
+    "Russian",
+  ];
   posts: Post[];
   sortMode = SortMode.Date;
-  language = Language.En;
   profile: Profile;
   sub: Subscription;
   isLoading = false;
@@ -48,10 +67,19 @@ export class HomePage implements OnInit, OnDestroy{
     this.reloadPosts();
   }
 
+  getLanguageIndex() { 
+    return this.languages.indexOf(this.propaganda.language).toString();
+  }
+  getLanguage(index) {
+    if(index < 0)
+      return;
+    return this.languagesNames[index];
+  }
+
   reloadPosts() {
     this.posts = [];
     this.isLoading = true;
-    this.propaganda.getPosts(GetMode.Page, 0, this.page, this.enigma, 0, false, this.language, this.sortMode).subscribe((result) => {
+    this.propaganda.getPosts(GetMode.Page, 0, this.page, this.enigma, 0, false, this.propaganda.language, this.sortMode).subscribe((result) => {
       this.isLoading = false;
       if(result.success) { 
         console.log("reloaded posts");
@@ -108,6 +136,12 @@ export class HomePage implements OnInit, OnDestroy{
     this.propaganda.selectedEnigma = this.enigma;
     this.reloadPosts();
   }
+
+  onChangeLanguage(event){
+    this.propaganda.language = this.languages[+event.detail.value];
+    this.reloadPosts();
+  }
+
 
   segmentChanged(event) {
     console.log(event.detail.value);
