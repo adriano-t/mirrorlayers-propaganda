@@ -2,15 +2,16 @@
 Propaganda Client
 
 ## TODO
-- Add loader on send comment
-- dismiss loader in case of failure
-- show pages on the url and retrieve that
-- follow button
-- follow on comment
-- profile
-- notifications
-- clicking on a profile picture will open his profile
+- Add loader on comment send
+- check loaders: dismiss in case of failure
+- auto-follow when comment
 - load more comments button
+- load more posts/comments on profile
+- notifications for received likes
+- delete notification
+- send report
+- toast notifications
+- change server button
 
 ## Requirements
 

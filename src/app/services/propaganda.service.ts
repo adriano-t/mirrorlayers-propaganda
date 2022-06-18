@@ -13,6 +13,7 @@ export class PropagandaService {
 
   private loggedIn = false;
   private profile: Profile;
+  public selectedEnigma = 0;
 
   profileCallback = new BehaviorSubject<Profile>(null);
 

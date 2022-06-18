@@ -35,7 +35,7 @@ export class HomePage implements OnInit, OnDestroy{
       if(data == null)
         return;
       this.enigmas = [].constructor(data.enigma + 1);
-      console.log(this.enigmas);
+      this.enigma = this.propaganda.selectedEnigma;
     });  
   }
 
@@ -105,7 +105,7 @@ export class HomePage implements OnInit, OnDestroy{
 
   onChangeEnigma(event){
     this.enigma = +event.detail.value;
-    console.log(this.enigma);
+    this.propaganda.selectedEnigma = this.enigma;
     this.reloadPosts();
   }
 
