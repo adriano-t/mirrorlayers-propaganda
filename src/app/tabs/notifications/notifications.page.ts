@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { Notification, NotificationType } from 'src/app/services/propaganda.service';
 
@@ -15,6 +16,7 @@ export class NotificationsPage implements OnInit {
 
   constructor(
     private notifService: NotificationsService,
+    private nav: NavController,
   ) {}
 
   ngOnInit(): void {
@@ -48,6 +50,9 @@ export class NotificationsPage implements OnInit {
 
   onClick(notification: Notification) {
     console.log(notification);
+    if(notification.type == NotificationType.Comment) {
+      this.nav.navigateForward(["/post/", notification.postid]);
+    }
   }
 
   onClickDelete(notification: Notification) {

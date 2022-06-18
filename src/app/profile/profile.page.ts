@@ -46,7 +46,6 @@ export class ProfilePage implements OnInit {
       if (result.success) {
         this.isLoading = false;
         this.posts = result.posts;
-        console.log(this.posts);
       }
     });
   }
@@ -59,7 +58,6 @@ export class ProfilePage implements OnInit {
       this.isLoading = false;
       if (result.success) {
         this.comments = result.comments;
-        console.log(this.comments);
       }
     });
   }
@@ -71,8 +69,7 @@ export class ProfilePage implements OnInit {
     this.propaganda.getPosts(GetMode.Begin, 0, 0, 255, this.profile.id, true, Language.All, SortMode.Enigma).subscribe((result) => {
       if (result.success) {
         this.isLoading = false;
-        this.posts = result.posts;
-        console.log(this.posts);
+        this.followed = result.posts;
       }
     });
   }
