@@ -6,7 +6,34 @@
 
 <ion-content>
 
-  <ion-item>
+  <ion-grid>
+    
+    <ion-row *ngIf="failed">
+      <ion-col size-sm="8" offset-sm="2">
+        <ion-item color="danger">
+          <ion-label >
+            It looks your steam account is not associated to any user :( <br/>
+            Join our <a href="https://discord.gg/JqRmmr6CUC" >discord server</a> to get support
+          </ion-label> 
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size-sm="8" offset-sm="2">
+        <ion-item >
+          <ion-label>Propaganda is only available to registered users. <br/>
+            Launch the <a href="https://store.steampowered.com/app/1490980/Mirror_Layers/?">game</a> and sign up!</ion-label> 
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-sm="8" offset-sm="2"> 
+          <ion-button expand="block" (click)="onClickLogin()">Login with steam</ion-button> 
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!-- <ion-item>
     <ion-label position="floating">Name</ion-label>
     <ion-input  type="text"></ion-input>
   </ion-item>
@@ -14,7 +41,9 @@
   <ion-item>
     <ion-label position="floating">Password</ion-label>
     <ion-input type="password"></ion-input>
-  </ion-item>
- 
-  <ion-button expand="block" (click)="onClickLogin()">Login</ion-button>
+  </ion-item> -->
+
+  
+
+  
 </ion-content>

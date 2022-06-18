@@ -10,39 +10,48 @@ import { PropagandaService } from '../services/propaganda.service';
 })
 export class AuthPage implements OnInit {
 
+  failed: boolean;
+
   constructor(private propa: PropagandaService,
     private nav:NavController,
     private loader: LoadingController,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-   
+  
+    if(this.route.snapshot.queryParams.failed)
+      this.failed = true;
+
     this.loader.create({
-      message: "Logging in..."
+      message: "Checking login status..."
     }).then((el)=> {
       
       el.present();
 
-      this.propa.login().subscribe((success) => { 
+      this.propa.checkLogin()
+      .subscribe((success) => { 
         el.dismiss();
         if(success) {
           const params = this.route.snapshot.queryParams;
-          console.log(params);
+          console.log("logged in, redirecting: ", params);
           this.nav.navigateForward(params.redirect || "/");
+        } else {
+          console.log("not logged in");
         }
       },
       (error)=>{
-        console.log(error);
+        console.error(error);
         el.dismiss();
       });
     })
   }
 
   onClickLogin() {
-    this.propa.login().subscribe((success) => { 
-      if(success)
-        this.nav.navigateForward("/"); 
-    });
+    this.propa.login();
+    // .subscribe((success) => { 
+    //   if(success)
+    //     this.nav.navigateForward("/"); 
+    // });
   }
 
 }

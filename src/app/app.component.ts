@@ -21,7 +21,16 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sub = this.propaganda.profileCallback.subscribe((data) => {
       this.profile = data;
-    });  
+    }); 
+  }
+
+  onToggleChange(event) {
+    const checked = event.detail.checked;
+    this.toggleDarkTheme(checked);
+  } 
+
+  toggleDarkTheme(shouldAdd) {
+    document.body.classList.toggle('dark', shouldAdd);
   }
 
   ngOnDestroy(): void {
@@ -44,4 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+
+
 }

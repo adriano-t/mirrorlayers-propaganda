@@ -1,10 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +14,12 @@ export class PropagandaService {
   private profile: Profile;
   public language = Language.En;
   public selectedEnigma = 0;
-
   profileCallback = new BehaviorSubject<Profile>(null);
-
-  constructor(
-    private http: HttpClient,
-    private nav: NavController) { }
-
+  
+  private devTest = "";//"?dev-test=true";
+  
   // private readonly filenameRegister = "register.php";
-  private readonly filenameLogin = "login.php";
+  private readonly filenameCheckLogin = "checklogin.php";
   private readonly filenameLogout = "logout.php";
   // private readonly filenameCreatePost = "post.php";
   private readonly filenameCreateComment = "comment.php";
@@ -46,6 +42,11 @@ export class PropagandaService {
   private readonly baseAddress1 = "https://mirrorlayers.com/api/"; 
   // private readonly baseAddress2 = "https://mirrorlayers.altervista.org/api/";
 
+  constructor(
+    private http: HttpClient,
+    private nav: NavController,
+    private router: Router) { }
+
   public isLogged(){
     return this.loggedIn;
   }
@@ -54,64 +55,121 @@ export class PropagandaService {
     return "https://mirrorlayers.com/propaganda/avatars/" + index + ".png"
   }
  
-  public login ()  
-  {
-    const formData = new FormData();
-    formData.append("data", JSON.stringify({
-        "id": "612",
-        "password" : "ShgrxxEbogxFFcXbJJSp"
-    }));
+  private generateSteamUrl() {
+    
+    const paramChar = window.location.href.includes("?") ? "&" : "?";
+    const redirectParams = new HttpParams({ fromObject: {
+      redirect: encodeURIComponent(window.location.href),
+      fail_redirect: encodeURIComponent(window.location.href + paramChar + "failed=true"),
+    }}).toString();
+    
+	  const steamUrl = 'https://steamcommunity.com/openid/login';
+    const realm = "https://mirrorlayers.com/";
+		const returnTo = "https://mirrorlayers.com/api/webauth.php?" + redirectParams;
+		
+		const params = { 
+			'openid.ns': 'http://specs.openid.net/auth/2.0',
+			'openid.mode': 'checkid_setup',
+			'openid.return_to': returnTo,
+			'openid.realm': realm,
+			'openid.identity': 'http://specs.openid.net/auth/2.0/identifier_select',
+			'openid.claimed_id': 'http://specs.openid.net/auth/2.0/identifier_select',
+    };
+    const queryParamsString = new HttpParams({ fromObject: params }).toString();
+	 
+		return steamUrl + '?' + queryParamsString;
+  }
 
+  public checkLogin() {
     return this.http
-    .post<LoginResult>(
-      this.baseAddress1 + this.filenameLogin + "?dev-test=true", 
-      formData, 
+    .post<SuccessResult>(
+      this.baseAddress1 + this.filenameCheckLogin, 
+      null,
       {withCredentials: true, })
     .pipe(
       take(1),
       map(
-        (data:LoginResult) : boolean => { 
-          if(!data.success) {
-            if(data.errors && data.errors[0] === "ERROR_ALREADY_LOGGED_IN"){
-              this.loggedIn = true; 
-              this.getProfile(612).subscribe((response) => {
-                this.profile = response.profile;
-                this.profileCallback.next(this.profile);
-              });
-
-              return true;
-            };
+        (data:SuccessResult) : boolean => { 
+          this.loggedIn = data.success;
+          if(!data.success) { 
             return false;
           }
 
-          this.loggedIn = true;
-          this.profile = {
-            avatar: data.avatar,
-            creationDate: data.creation_date,
-            enigma: data.enigma,
-            gender: data.gender,
-            id: data.id,
-            info: data.info,
-            lastLogin: null,
-            likes: data.likes,
-            likes_given: 0,
-            likes_received: 0,
-            name: data.name,
-            section: data.section
-          };
-          console.log("emitting");
-          this.profileCallback.next(this.profile);
-          return true;
+          this.getProfile(data.id).subscribe((response) => {
+            this.profile = response.profile;
+            this.profileCallback.next(this.profile);
+          });
+
+          this.loggedIn = true; 
+          return this.loggedIn;
         }
       )
     );
+  }
+
+  public login ()  
+  {
+    const url = this.generateSteamUrl();
+    console.log(url);
+    window.location.href = url;
+    
+    // const formData = new FormData();
+    // formData.append("data", JSON.stringify({
+    //     "id": "612",
+    //     "password" : "ShgrxxEbogxFFcXbJJSp"
+    // }));
+
+    // return this.http
+    // .post<LoginResult>(
+    //   this.baseAddress1 + this.filenameLogin + this.devTest, 
+    //   formData, 
+    //   {withCredentials: true, })
+    // .pipe(
+    //   take(1),
+    //   map(
+    //     (data:LoginResult) : boolean => { 
+    //       if(!data.success) {
+    //         if(data.errors && data.errors[0] === "ERROR_ALREADY_LOGGED_IN"){
+    //           this.loggedIn = true; 
+
+    //           this.getProfile(data.id).subscribe((response) => {
+    //             this.profile = response.profile;
+    //             this.profileCallback.next(this.profile);
+    //           });
+
+    //           return true;
+    //         };
+    //         return false;
+    //       }
+
+    //       this.loggedIn = true;
+    //       this.profile = {
+    //         avatar: data.avatar,
+    //         creationDate: data.creation_date,
+    //         enigma: data.enigma,
+    //         gender: data.gender,
+    //         id: data.id,
+    //         info: data.info,
+    //         lastLogin: null,
+    //         likes: data.likes,
+    //         likes_given: 0,
+    //         likes_received: 0,
+    //         name: data.name,
+    //         section: data.section
+    //       };
+    //       console.log("emitting");
+    //       this.profileCallback.next(this.profile);
+    //       return true;
+    //     }
+    //   )
+    // );
   }
 
   public logout ()  
   {
     return this.http
     .post<LogoutResult>(
-      this.baseAddress1 + this.filenameLogout + "?dev-test=true", 
+      this.baseAddress1 + this.filenameLogout + this.devTest, 
       null,
       {withCredentials: true, })
     .pipe(
@@ -144,7 +202,7 @@ export class PropagandaService {
 
     return this.http
     .post<GetPostsResult>(
-      this.baseAddress1 + this.filenameGetPosts + "?dev-test=true", 
+      this.baseAddress1 + this.filenameGetPosts + this.devTest, 
       formData, 
       {withCredentials: true, })
     .pipe(
@@ -175,7 +233,7 @@ export class PropagandaService {
 
     return this.http
     .post<GetCommentsResult>(
-      this.baseAddress1 + this.filenameGetComments + "?dev-test=true", 
+      this.baseAddress1 + this.filenameGetComments + this.devTest, 
       formData, 
       {withCredentials: true, })
     .pipe(
@@ -205,7 +263,7 @@ export class PropagandaService {
 
     return this.http
     .post<CreateCommentResult>(
-      this.baseAddress1 + this.filenameCreateComment + "?dev-test=true", 
+      this.baseAddress1 + this.filenameCreateComment + this.devTest, 
       formData, 
       {withCredentials: true, })
     .pipe(
@@ -236,7 +294,7 @@ export class PropagandaService {
 
     return this.http
     .post<LikeResult>(
-      this.baseAddress1 + this.filenameLike + "?dev-test=true", 
+      this.baseAddress1 + this.filenameLike + this.devTest, 
       formData, 
       {withCredentials: true, })
     .pipe(
@@ -265,7 +323,7 @@ export class PropagandaService {
 
     return this.http
     .post<GetProfileResult>(
-      this.baseAddress1 + this.filenameProfile + "?dev-test=true", 
+      this.baseAddress1 + this.filenameProfile + this.devTest, 
       formData, 
       {withCredentials: true, })
     .pipe(
@@ -284,7 +342,7 @@ export class PropagandaService {
 
     return this.http
     .post<DeleteResult>(
-      this.baseAddress1 + this.filenameDelete + "?dev-test=true", 
+      this.baseAddress1 + this.filenameDelete + this.devTest, 
       formData, 
       {withCredentials: true, })
     .pipe(
@@ -313,7 +371,7 @@ export class PropagandaService {
 
     return this.http
     .post<GetNotificationsResult>(
-      this.baseAddress1 + this.filenameGetNotifications + "?dev-test=true", 
+      this.baseAddress1 + this.filenameGetNotifications + this.devTest, 
       formData, 
       {withCredentials: true, })
     .pipe(
@@ -340,7 +398,7 @@ export class PropagandaService {
   formData.append("data", JSON.stringify(jsonData));
   return this.http
     .post<SearchResult>(
-      this.baseAddress1 + this.filenameSearch + "?dev-test=true", 
+      this.baseAddress1 + this.filenameSearch + this.devTest, 
       formData, 
       {withCredentials: true, })
     .pipe(
@@ -359,7 +417,7 @@ export class PropagandaService {
 
     return this.http
     .post<Result>(
-      this.baseAddress1 + this.filenameFollow + "?dev-test=true", 
+      this.baseAddress1 + this.filenameFollow + this.devTest, 
       formData, 
       {withCredentials: true, })
     .pipe(
@@ -389,7 +447,7 @@ export class PropagandaService {
 
   //   return this.http
   //   .post<RESULT_TYPE>(
-  //     this.baseAddress1 + this.filename + "?dev-test=true", 
+  //     this.baseAddress1 + this.filename + this.devTest, 
   //     formData, 
   //     {withCredentials: true, })
   //   .pipe(
@@ -530,6 +588,11 @@ export interface Notification {
 export interface Result {
   success: boolean;
   errors: string[];
+}
+
+export interface SuccessResult {
+  success: boolean;
+  id: number;
 }
 
 export interface RegisterResult extends Result {
