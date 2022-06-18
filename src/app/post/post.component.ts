@@ -24,7 +24,8 @@ export class PostComponent implements OnInit, OnDestroy{
     private nav: NavController,
     private alert: AlertService,
     private actionSheetController: ActionSheetController,
-    private loader: LoadingController) {}
+    private loader: LoadingController
+    ) {}
 
 
   ngOnInit() {
@@ -188,11 +189,15 @@ export class PostComponent implements OnInit, OnDestroy{
     }).then((el)=>{
       el.present();
       this.propaganda.follow(this.post.id, !this.post.followed).subscribe(() =>{
-          el.dismiss();
-          this.post.followed = !this.post.followed;
-        });
+        el.dismiss();
+        this.post.followed = !this.post.followed;
       });
-    }
+    });
+  }
+
+  visitProfile(author) {
+    this.nav.navigateForward(["/profile/", author]);
+  }
 
   onClickOptions() {
     this.presentActionSheet();

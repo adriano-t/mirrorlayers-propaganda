@@ -17,16 +17,22 @@ export class AppComponent implements OnInit, OnDestroy {
     private propaganda: PropagandaService,
     private nav: NavController,
     private menu: MenuController) {}
- 
-    ngOnInit(): void {
-      this.sub = this.propaganda.profileCallback.subscribe((data) => {
-        this.profile = data;
-      });  
-    }
+
+  ngOnInit(): void {
+    this.sub = this.propaganda.profileCallback.subscribe((data) => {
+      this.profile = data;
+    });  
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
   
-    ngOnDestroy(): void {
-      this.sub.unsubscribe();
-    }
+  visitProfile() {
+    this.nav.navigateForward(["/profile/", this.profile.id]);
+    this.menu.close();
+  }
 
   onClickLogout(){
     this.propaganda.logout().subscribe((success) => {

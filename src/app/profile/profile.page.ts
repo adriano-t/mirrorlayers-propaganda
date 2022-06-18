@@ -12,6 +12,8 @@ export class ProfilePage implements OnInit {
   profile: Profile;
   posts: Post[];
   comments: Comment[];
+  followed: Post[];
+  isLoading = false;
   tab = 0;
 
   genders = [
@@ -37,9 +39,12 @@ export class ProfilePage implements OnInit {
   }
 
   loadPosts() {
-    console.log(this.profile.id)
+    if(this.isLoading)
+      return;
+    this.isLoading = true;
     this.propaganda.getPosts(GetMode.Begin, 0, 0, 255, this.profile.id, false, Language.All, SortMode.Enigma).subscribe((result) => {
       if (result.success) {
+        this.isLoading = false;
         this.posts = result.posts;
         console.log(this.posts);
       }
@@ -47,10 +52,27 @@ export class ProfilePage implements OnInit {
   }
 
   loadComments() {
+    if(this.isLoading)
+      return;
+    this.isLoading = true;
     this.propaganda.getComments(GetMode.Begin, 0, 0, this.profile.id).subscribe((result) => {
+      this.isLoading = false;
       if (result.success) {
         this.comments = result.comments;
         console.log(this.comments);
+      }
+    });
+  }
+
+  loadFollowed() {
+    if(this.isLoading)
+      return;
+    this.isLoading = true;
+    this.propaganda.getPosts(GetMode.Begin, 0, 0, 255, this.profile.id, true, Language.All, SortMode.Enigma).subscribe((result) => {
+      if (result.success) {
+        this.isLoading = false;
+        this.posts = result.posts;
+        console.log(this.posts);
       }
     });
   }
@@ -75,7 +97,7 @@ export class ProfilePage implements OnInit {
         
       case "followed":
         this.tab = 2;
-        //this.loadFollowed();
+        this.loadFollowed();
         break;
     }
   }

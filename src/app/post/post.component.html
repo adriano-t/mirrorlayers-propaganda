@@ -4,7 +4,7 @@
     <ion-row>
       <ion-col class="avatar-column">
         <ion-avatar>
-          <img [src]="post.avatar | avatar">
+          <img [src]="post.avatar | avatar" (click)="visitProfile(post.author)">
         </ion-avatar>
       </ion-col> 
       <ion-col size-xs="8"  class="ion-padding">

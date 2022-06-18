@@ -98,17 +98,34 @@
       </ion-col>
     </ion-row>
 
-    <ion-row *ngIf="tab === 0 && posts && posts.length > 0">
-      <ion-col>
+    <ion-row *ngIf="tab === 0" class="ion-justify-content-center">
+      <ion-col *ngIf="posts && posts.length > 0">
         <app-post *ngFor="let post of posts" [post]="post" ></app-post>
       </ion-col>
+      <ion-col *ngIf="!isLoading && (!posts || posts.length <= 0)" class="ion-text-center">
+        No posts.
+      </ion-col>
+      <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
     </ion-row>
     
-
-    <ion-row *ngIf="tab === 1 && comments&& comments.length > 0">
-      <ion-col>
+    <ion-row *ngIf="tab === 1" class="ion-justify-content-center">
+      <ion-col *ngIf="comments&& comments.length > 0">
         <app-comment *ngFor="let comment of comments" [comment]="comment" [profile]="profile" (onDelete)="onCommentDelete()" ></app-comment>
       </ion-col>
+      <ion-col *ngIf="!isLoading && (!comments || comments.length <= 0)" class="ion-text-center">
+        No comments.
+      </ion-col>
+      <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+    </ion-row>
+
+    <ion-row *ngIf="tab === 2" class="ion-justify-content-center">
+      <ion-col *ngIf="followed && followed.length > 0">
+        <app-post *ngFor="let post of followed" [post]="post" ></app-post>
+      </ion-col>
+      <ion-col *ngIf="!isLoading && (!followed || followed.length <= 0)" class="ion-text-center">
+        No followed posts.
+      </ion-col>
+      <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
     </ion-row>
 
   </ion-grid>

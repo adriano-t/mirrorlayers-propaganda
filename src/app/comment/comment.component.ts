@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { ActionSheetController, LoadingController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, NavController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { Comment, LikeType, Profile, PropagandaService } from '../services/propaganda.service';
 import { AlertService } from '../shared/alert.service';
@@ -19,7 +19,9 @@ export class CommentComponent implements OnInit {
   constructor(private propaganda:PropagandaService,
     private alert: AlertService,
     public actionSheetController: ActionSheetController,
-    private loader: LoadingController) {}
+    private loader: LoadingController,
+    private nav: NavController,
+    ) {}
 
   ngOnInit() {}
 
@@ -115,6 +117,11 @@ export class CommentComponent implements OnInit {
 
     // const { role, data } = await actionSheet.onDidDismiss();
     // console.log('onDidDismiss resolved with role and data', role, data);
+  }
+
+  
+  visitProfile(author) {
+    this.nav.navigateForward(["/profile/", author]);
   }
 
   onClickOptions() {

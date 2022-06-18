@@ -2,7 +2,7 @@
   <ion-grid>
     <ion-row>
       <ion-col class="avatar-column">
-        <ion-thumbnail>
+        <ion-thumbnail (click)="visitProfile(comment.author)">
           <img [src]="comment.avatar | avatar">
         </ion-thumbnail>
       </ion-col> 
@@ -37,7 +37,7 @@
 
     <ion-row *ngIf="!comment.preview && comment.filename_original">
       <ion-col size-xs="12"> 
-          <ion-chip><ion-icon name="document-attach-outline"></ion-icon><ion-label>{{comment.filename_original}}</ion-label></ion-chip>
+          <ion-chip><ion-icon color="primary" name="attach"></ion-icon><ion-label>{{comment.filename_original}}</ion-label></ion-chip>
       </ion-col> 
     </ion-row>
 
