@@ -89,7 +89,7 @@ export class NotificationsPage implements OnInit {
 
 
     this.actionSheetController.create({
-      header: 'Post options',
+      header: 'Notification options',
       buttons: buttons
     }).then(sheet => {
       sheet.present();

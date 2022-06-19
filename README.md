@@ -1,7 +1,6 @@
 # Propaganda Client
 
 ## To do
-- change server button
 - Add spinner on comment send
 - check loaders: dismiss in case of failure
 - auto-follow when comment
@@ -9,11 +8,13 @@
 - load more posts/comments button on profile
 - notifications for received likes
 - delete notification
+- aggiornare i core
 - send report
-- toast notifications
+- refresh notifications in background and show a number on the icon
 
 ## Bugs
-- se finisci i likes e provi a mettere mi piace ti slogga
+- if you have 0 likes it logs you out, instead it should show an alert
+- missing translations _PROPA_TRANSLATE
 
 ## Requirements
 

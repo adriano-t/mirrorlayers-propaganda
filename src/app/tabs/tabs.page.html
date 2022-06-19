@@ -1,16 +1,16 @@
 <ion-tabs>
 
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="home">
-      <ion-icon name="chatbox-ellipses"></ion-icon> 
+    <ion-tab-button #t1 tab="home">
+      <ion-icon [name]="t1.selected ? 'chatbox-ellipses' : 'chatbox-ellipses-outline'"></ion-icon> 
     </ion-tab-button>
 
-    <ion-tab-button tab="search">
-      <ion-icon name="search-outline"></ion-icon> 
+    <ion-tab-button #t2 tab="search">
+      <ion-icon [name]="t2.selected ? 'search' : 'search-outline'"></ion-icon> 
     </ion-tab-button>
 
-    <ion-tab-button tab="notifications">
-      <ion-icon name="notifications-outline"></ion-icon>
+    <ion-tab-button #t3 tab="notifications">
+      <ion-icon [name]="t3.selected ? 'notifications' : 'notifications-outline'"></ion-icon>
     </ion-tab-button>
   </ion-tab-bar>
 
