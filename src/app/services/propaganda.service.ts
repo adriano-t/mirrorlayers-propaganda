@@ -33,7 +33,7 @@ export class PropagandaService {
   // private readonly filenameEditProfile = "editprofile.php";
   private readonly filenameSearch = "search.php";
   private readonly filenameGetNotifications = "getnotifications.php";
-  // private readonly filenameDeleteNotification = "deletenotification.php";
+  private readonly filenameDeleteNotification = "deletenotification.php";
   // private readonly filenameReport = "report.php";
   // private readonly filenameEnigma = "enigma.php";
   // private readonly filenameDownload = "download.php";
@@ -104,7 +104,7 @@ export class PropagandaService {
     );
   }
 
-  private refreshProfile(id) {
+  public refreshProfile(id) {
     this.getProfile(id).subscribe((response) => {
       this.profile = response.profile;
       this.profileCallback.next(this.profile);
@@ -114,59 +114,7 @@ export class PropagandaService {
   public login ()  
   {
     const url = this.generateSteamUrl();
-    console.log(url);
     window.location.href = url;
-    
-    // const formData = new FormData();
-    // formData.append("data", JSON.stringify({
-    //     "id": "612",
-    //     "password" : "ShgrxxEbogxFFcXbJJSp"
-    // }));
-
-    // return this.http
-    // .post<LoginResult>(
-    //   this.baseAddress1 + this.filenameLogin + this.devTest, 
-    //   formData, 
-    //   {withCredentials: true, })
-    // .pipe(
-    //   take(1),
-    //   map(
-    //     (data:LoginResult) : boolean => { 
-    //       if(!data.success) {
-    //         if(data.errors && data.errors[0] === "ERROR_ALREADY_LOGGED_IN"){
-    //           this.loggedIn = true; 
-
-    //           this.getProfile(data.id).subscribe((response) => {
-    //             this.profile = response.profile;
-    //             this.profileCallback.next(this.profile);
-    //           });
-
-    //           return true;
-    //         };
-    //         return false;
-    //       }
-
-    //       this.loggedIn = true;
-    //       this.profile = {
-    //         avatar: data.avatar,
-    //         creationDate: data.creation_date,
-    //         enigma: data.enigma,
-    //         gender: data.gender,
-    //         id: data.id,
-    //         info: data.info,
-    //         lastLogin: null,
-    //         likes: data.likes,
-    //         likes_given: 0,
-    //         likes_received: 0,
-    //         name: data.name,
-    //         section: data.section
-    //       };
-    //       console.log("emitting");
-    //       this.profileCallback.next(this.profile);
-    //       return true;
-    //     }
-    //   )
-    // );
   }
 
   public logout ()  
@@ -214,8 +162,7 @@ export class PropagandaService {
       tap(
         (data) => {
           if(!data.success) {
-            console.log(data.errors)
-            this.nav.navigateRoot(['/auth']);
+            console.log(data.errors);
             return;
           } 
  
@@ -246,7 +193,6 @@ export class PropagandaService {
         (data) => {
           if(!data.success) {
             console.log(data.errors);
-            this.nav.navigateRoot(['/auth']);
             return;
           } 
  
@@ -276,8 +222,7 @@ export class PropagandaService {
         (data) : number  => {
           console.log(data);
           if(!data.success) {
-            console.log(data.errors)
-            this.nav.navigateRoot(['/auth']);
+            console.log(data.errors);
             return 0;
           }
  
@@ -307,7 +252,6 @@ export class PropagandaService {
         (data) : boolean => { 
           if(!data.success) {
             console.log(data.errors);
-            this.nav.navigateRoot(['/auth']);
             return false;
           }
  
@@ -356,7 +300,6 @@ export class PropagandaService {
           console.log(data);
           if(!data.success) {
             console.log(data.errors);
-            this.nav.navigateRoot(['/auth']);
             return false;
           }
  
@@ -366,6 +309,7 @@ export class PropagandaService {
     );
   }  
   
+
   getNotifications() {
   const jsonData : GetNotificationsInfo = {
      
@@ -385,13 +329,39 @@ export class PropagandaService {
           console.log(data);
           if(!data.success) {
             console.log(data.errors);
-            this.nav.navigateRoot(['/auth']);
             return null;
           }
           return data.notifications;
         }
       )
     );
+  }  
+
+  
+  deleteNotification(postId: number) {
+  const jsonData : DeleteNotificationInfo = {
+    "postid": postId,
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(jsonData));
+
+    return this.http
+    .post<Result>(
+      this.baseAddress1 + this.filenameDeleteNotification + this.devTest, 
+      formData, 
+      {withCredentials: true, })
+    .pipe(
+      take(1),
+      map((data: Result) : boolean => {
+          console.log(data);
+          if(!data.success) {
+            console.log(data.errors); 
+            return false;
+          }
+          return true;
+        }
+      )
+    ); 
   }  
   
   searchProfile(name: string) {

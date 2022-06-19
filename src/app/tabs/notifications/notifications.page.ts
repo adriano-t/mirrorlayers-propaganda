@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, NavController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, NavController } from '@ionic/angular';
 import { NotificationsService } from 'src/app/services/notifications.service';
-import { Notification, NotificationType } from 'src/app/services/propaganda.service';
+import { Notification, NotificationType, PropagandaService } from 'src/app/services/propaganda.service';
 
 @Component({
   selector: 'app-notifications',
@@ -20,6 +20,8 @@ export class NotificationsPage implements OnInit {
     private actionSheetController: ActionSheetController,
     private notifService: NotificationsService,
     private nav: NavController,
+    private propaganda: PropagandaService,
+    private loading: LoadingController
   ) {}
 
   ngOnInit(): void {
@@ -77,7 +79,14 @@ export class NotificationsPage implements OnInit {
       icon: 'trash',
       role: 'destructive',
       handler: () => { 
-        console.log("delete notification");
+        this.loading.create({
+          message: "Deleting..."
+        }).then((elem) => {
+          elem.present();
+          this.notifService.deleteNotification(notification).subscribe((success)=>{
+            elem.dismiss();
+          });
+        })
       }
     },
     {

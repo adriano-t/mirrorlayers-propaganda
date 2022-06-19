@@ -11,9 +11,10 @@
 - aggiornare i core
 - send report
 - refresh notifications in background and show a number on the icon
+- show an alert when you have no more likes
+
 
 ## Bugs
-- if you have 0 likes it logs you out, instead it should show an alert
 - missing translations _PROPA_TRANSLATE
 
 ## Requirements

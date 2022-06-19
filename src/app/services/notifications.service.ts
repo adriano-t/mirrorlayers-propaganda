@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, pipe } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Notification, PropagandaService } from './propaganda.service';
 
 @Injectable({
@@ -35,8 +36,13 @@ export class NotificationsService {
       notif.postid != notification.postid &&
       notif.message != notification.message);
     
-    //TODO this.propaganda.deleteNotification()
-    this.emit();
+      return this.propaganda.deleteNotification(notification.postid)
+      .pipe(
+        tap((success) => {
+          this.notifications = this.notifications.filter(notif => notif.postid != notification.postid);
+          this.emit();
+        })
+      );
   }
 
   emit() {
