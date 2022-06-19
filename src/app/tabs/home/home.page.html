@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar  mode="md">
     <ion-title>
       Home {{page > 0 ? " page " + page: ""}}
     </ion-title>
@@ -38,7 +38,7 @@
   
 
   <ion-row>
-    <ion-col size-md="8" offset-md="2"> 
+    <ion-col    > 
       <app-post *ngFor="let post of posts" [post]="post"></app-post>
       <div class="ion-text-center">
         <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
@@ -47,7 +47,7 @@
   </ion-row>
   
   <ion-row  *ngIf="!isLoading">
-    <ion-col size-md="8" offset-md="2"> 
+    <ion-col> 
       <ion-button 
       (click)="onClickPreviousPage()"
       color="secondary"
@@ -55,15 +55,16 @@
       expand="block"><ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-col> 
-    <ion-col size-xs="4" class="ion-text-center ion-padding-vertical">
+    <ion-col class="ion-text-center ion-padding-vertical">
       <ion-text >Page {{page}}</ion-text>
     </ion-col> 
-    <ion-col size-xs="4">
+    <ion-col>
       <ion-button  
       (click)="onClickNextPage()"
       color="secondary"
-      [disabled]="" 
-      expand="block"><ion-icon name="arrow-forward-outline"></ion-icon>
+      [disabled]="posts?.length < 10" 
+      expand="block">
+        <ion-icon name="arrow-forward-outline"></ion-icon>
       </ion-button>
     </ion-col> 
   </ion-row>

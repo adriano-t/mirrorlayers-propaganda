@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ActionSheetController, NavController } from '@ionic/angular';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { Notification, NotificationType } from 'src/app/services/propaganda.service';
 
@@ -14,7 +14,10 @@ export class NotificationsPage implements OnInit {
   notifications: Notification[] = [];
   maxLength = 30;
 
+  readNotifications = new Set();
+
   constructor(
+    private actionSheetController: ActionSheetController,
     private notifService: NotificationsService,
     private nav: NavController,
   ) {}
@@ -28,11 +31,21 @@ export class NotificationsPage implements OnInit {
       })
   }
 
+  getNotificationId(notification: Notification): string {
+    return notification.postid + "-" + notification.commentid + "-" + notification.type;
+  }
+
+  isUnread(notification: Notification) {
+    
+    return !this.readNotifications.has(this.getNotificationId(notification));
+  }
+
   getNotificationMessage(notification: Notification) {
-    if(notification.message.length < this.maxLength)
-      return notification.message;
+    let message = "New comment on \"" + notification.message;
+    if(message.length < this.maxLength)
+      return message + "\"";
     else
-      return notification.message.slice(0, this.maxLength) + "...";
+      return message.slice(0, this.maxLength) + "\"...";
   }
 
   getNotificationIcon(notification: Notification): string {
@@ -53,10 +66,34 @@ export class NotificationsPage implements OnInit {
     if(notification.type == NotificationType.Comment) {
       this.nav.navigateForward(["/post/", notification.postid]);
     }
+    if(this.isUnread(notification))
+      this.readNotifications.add(this.getNotificationId(notification));
   }
 
   onClickDelete(notification: Notification) {
-    console.log(notification);
+    const buttons = [
+    {
+      text: 'Delete',
+      icon: 'trash',
+      role: 'destructive',
+      handler: () => { 
+        console.log("delete notification");
+      }
+    },
+    {
+      text: 'Cancel',
+      icon: 'close',
+      role: 'cancel',
+      handler: () => { }
+    }];
+
+
+    this.actionSheetController.create({
+      header: 'Post options',
+      buttons: buttons
+    }).then(sheet => {
+      sheet.present();
+    });
   }
 
 }

@@ -22,6 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.sub = this.propaganda.profileCallback.subscribe((data) => {
       this.profile = data;
     }); 
+
   }
 
   onToggleChange(event) {
@@ -41,6 +42,10 @@ export class AppComponent implements OnInit, OnDestroy {
   visitProfile() {
     this.nav.navigateForward(["/profile/", this.profile.id]);
     this.menu.close();
+  }
+
+  onClickFullscreen() {
+    document.documentElement.requestFullscreen({navigationUI: 'hide'});
   }
 
   onClickLogout(){

@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar  mode="md">
     <ion-title>
       Search
     </ion-title>
@@ -13,7 +13,7 @@
 <ion-content [fullscreen]="true">
   <ion-grid>
     <ion-row >
-      <ion-col size-sm="8" offset-sm="2">
+      <ion-col   >
         <ion-item>
         <ion-searchbar animated 
         #searchbar
@@ -24,14 +24,14 @@
       </ion-col>
     </ion-row>
     <ion-row  *ngIf="searchbar.value?.length < minChars && searchbar.value?.length > 0">
-      <ion-col size-sm="8" offset-sm="2" class="ion-text-center">
+      <ion-col    class="ion-text-center">
         <ion-chip color="warning">
           <ion-text>Minimum {{minChars}} characters</ion-text>
         </ion-chip>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size-sm="8" offset-sm="2" class="ion-text-center">
+      <ion-col    class="ion-text-center">
         <ion-list>
           <ion-item
             *ngFor="let profile of profiles"

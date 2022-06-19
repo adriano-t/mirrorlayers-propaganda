@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar mode="md">
     <ion-title color="primary">Authenticate</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,18 +9,32 @@
   <ion-grid>
     
     <ion-row *ngIf="failed">
-      <ion-col size-sm="8" offset-sm="2">
+      <ion-col   >
         <ion-item color="danger">
           <ion-label >
             It looks your steam account is not associated to any user :( <br/>
-            Join our <a href="https://discord.gg/JqRmmr6CUC" >discord server</a> to get support
+            <ul>
+              <li>
+                Open the game from steam
+              </li>
+              <li>
+                Login to propaganda from there
+              </li>
+              <li>
+                Retry to click the button below
+              </li>
+              <li>
+                Still have problems? Join our <a href="https://discord.gg/JqRmmr6CUC" >discord server</a> to get support
+              </li>
+            
+          </ul>
           </ion-label> 
         </ion-item>
       </ion-col>
     </ion-row>
 
     <ion-row>
-      <ion-col size-sm="8" offset-sm="2">
+      <ion-col   >
         <ion-item >
           <ion-label>Propaganda is only available to registered users. <br/>
             Launch the <a href="https://store.steampowered.com/app/1490980/Mirror_Layers/?">game</a> and sign up!</ion-label> 
@@ -28,7 +42,7 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size-sm="8" offset-sm="2"> 
+      <ion-col    offset-> 
           <ion-button expand="block" (click)="onClickLogin()">Login with steam</ion-button> 
       </ion-col>
     </ion-row>

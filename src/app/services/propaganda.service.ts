@@ -95,10 +95,7 @@ export class PropagandaService {
             return false;
           }
 
-          this.getProfile(data.id).subscribe((response) => {
-            this.profile = response.profile;
-            this.profileCallback.next(this.profile);
-          });
+          this.refreshProfile(data.id);
 
           this.loggedIn = true; 
           return this.loggedIn;
@@ -107,6 +104,13 @@ export class PropagandaService {
     );
   }
 
+  private refreshProfile(id) {
+    this.getProfile(id).subscribe((response) => {
+      this.profile = response.profile;
+      this.profileCallback.next(this.profile);
+    });
+  }
+  
   public login ()  
   {
     const url = this.generateSteamUrl();

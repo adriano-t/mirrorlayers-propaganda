@@ -40,12 +40,23 @@
           <ion-col class="ion-no-margin ion-no-padding">
           <ion-list>
             <ion-item detail="true" button="true" (click)="visitProfile()" >
-              <ion-icon slot="start" name="person">Profile</ion-icon>
+              <ion-icon slot="start" name="person"></ion-icon>
               <ion-label>Profile</ion-label>
             </ion-item> 
           </ion-list> 
         </ion-col>
       </ion-row>
+
+      <ion-row  class="ion-no-margin ion-no-padding">
+        <ion-col class="ion-no-margin ion-no-padding">
+        <ion-list>
+          <ion-item detail="true" button="true" (click)="onClickFullscreen()" >
+            <ion-icon slot="start" name="expand"></ion-icon>
+            <ion-label>Fullscreen</ion-label>
+          </ion-item> 
+        </ion-list> 
+      </ion-col>
+    </ion-row>
 
       <ion-row>
         <ion-col>
