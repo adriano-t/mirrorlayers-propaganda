@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActionSheetController, IonTextarea, LoadingController, NavController } from '@ionic/angular';
 import { Subject, Subscription } from 'rxjs';
 import { Comment, GetMode, LikeType, Post, Profile, PropagandaService } from '../services/propaganda.service';
+import { Translation } from '../services/Translation.model';
 import { AlertService } from '../shared/alert.service';
 
 @Component({
@@ -181,6 +182,13 @@ export class PostComponent implements OnInit, OnDestroy{
 
     const { role, data } = await actionSheet.onDidDismiss();
     console.log('onDidDismiss resolved with role and data', role, data);
+  }
+
+  getMessage(post: Post){
+    if(Translation.has(post.message)) {
+      return Translation.get(post.message);
+    }
+    return post.message;
   }
 
   onClickFollow() {

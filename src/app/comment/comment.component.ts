@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { ActionSheetController, LoadingController, NavController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { Comment, LikeType, Profile, PropagandaService } from '../services/propaganda.service';
+import { Translation } from '../services/Translation.model';
 import { AlertService } from '../shared/alert.service';
 
 @Component({
@@ -119,7 +120,13 @@ export class CommentComponent implements OnInit {
     // console.log('onDidDismiss resolved with role and data', role, data);
   }
 
-  
+  getMessage(comment: Comment){
+    if(Translation.has(comment.message)) {
+      return Translation.get(comment.message);
+    }
+    return comment.message;
+  }
+
   visitProfile(author) {
     this.nav.navigateForward(["/profile/", author]);
   }

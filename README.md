@@ -15,7 +15,6 @@
 
 
 ## Bugs
-- missing translations _PROPA_TRANSLATE
 
 ## Requirements
 
