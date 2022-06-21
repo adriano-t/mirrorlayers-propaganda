@@ -1,18 +1,19 @@
 # Propaganda Client
 
 ## To do
-- check loaders: dismiss in case of failure
-- auto-follow when comment
 - load more comments button on posts
 - load more posts/comments button on profile
-- notifications for received likes
-- refresh cores
+- hide comments marked as spoiler and the ones with enigma > my enigma
+- button to view a comment in context if we click from a profile
 - report profile
 - refresh notifications in background and show a number on the icon
+- notifications for received likes
+- auto-follow when comment
 - show an alert when you have no more likes
-
+- check loaders: dismiss in case of failure
 
 ## Bugs
+- cores are not refreshed when a like is sent
 
 ## Requirements
 

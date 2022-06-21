@@ -14,7 +14,6 @@ export class CommentComponent implements OnInit {
  
   @Input() comment: Comment;
   @Input() profile: Profile;
-  
   @Output() onDelete = new Subject();
 
   constructor(private propaganda:PropagandaService,
@@ -114,7 +113,7 @@ export class CommentComponent implements OnInit {
           data: 10,
           handler: () => {
             console.log('Report Inappropriate clicked');
-            
+
             this.loader.create({
               message: "Reporting...",
             }).then((el)=>{

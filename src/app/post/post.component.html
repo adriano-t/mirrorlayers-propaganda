@@ -62,6 +62,14 @@
       <ion-col>
         <ion-grid class="ion-no-margin ion-no-padding">
 
+          <ion-row *ngIf="canLoadPrevious">
+            <ion-col  class="ion-align-items-center ion-text-center">
+              <ion-button fill="clear" (click)="loadPrevious()">
+                <ion-text>Load Previous</ion-text>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
           <ion-row *ngFor="let comment of comments">
             <ion-col size-xs="12" class="ion-no-margin ion-no-padding">
               <app-comment [comment]="comment" [profile]="profile" (onDelete)="onCommentDelete()"></app-comment>
@@ -76,6 +84,15 @@
             </ion-col>
           </ion-row>
 
+          <ion-row *ngIf="canLoadNext && comments.length >= 10" >
+            <ion-col  class="ion-align-items-center ion-text-center">
+              <ion-button fill="clear" (click)="loadNext()">
+                <ion-text>Load More</ion-text>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+          
           <!-- Send Message Component -->
            <ion-row >
             <ion-item class="ion-align-items-center">

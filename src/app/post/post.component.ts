@@ -19,6 +19,10 @@ export class PostComponent implements OnInit, OnDestroy{
   sub: Subscription;
   profile: Profile;
   isLoading = false;
+  minCommentId = 1;
+  maxCommentId = 1;
+  canLoadNext = true;
+  canLoadPrevious = false;
 
   constructor(
     private propaganda:PropagandaService,
@@ -40,24 +44,53 @@ export class PostComponent implements OnInit, OnDestroy{
     this.sub.unsubscribe();
   }
 
-  
+  loadNext() {
+    console.log(this.maxCommentId);
+    this.reloadComments(GetMode.After, this.maxCommentId);
+  }
+
+  loadPrevious() {  
+    console.log(this.minCommentId);
+    this.reloadComments(GetMode.Before, this.minCommentId);
+  }
+
   reloadComments(mode: GetMode, commentId: number = 0) {
-    this.comments = [];
+
+    if(mode != GetMode.Before && mode != GetMode.After)
+      this.comments = [];
+
     this.isLoading = true;
     this.propaganda.getComments(mode, commentId, this.post.id, 0).subscribe((response)=>{
       this.isLoading = false;
-      if(response.success)
-        this.comments = response.comments;
+      if(response.success) {
+        if(mode == GetMode.Range) { 
+          this.canLoadPrevious = response.comments.length >= 10;
+        }
+        else if(mode == GetMode.Before) {
+          this.comments.unshift(...response.comments);
+          this.canLoadPrevious = response.comments.length > 0;
+        } else if ( mode == GetMode.After) {
+          this.comments.push(...response.comments);
+          this.canLoadNext = response.comments.length > 10;
+        } else {
+          this.comments = response.comments;
+        }
+      }
       
       this.commentsOpen = true;
+      console.log("asd");
+      //refresh min-max
+      this.maxCommentId = 1;
+      this.minCommentId = Number.MAX_SAFE_INTEGER;
+      this.comments?.forEach(comment => {
+        if(comment.id > this.maxCommentId)
+          this.maxCommentId = comment.id;
+        if (comment.id < this.minCommentId)
+          this.minCommentId = comment.id;
+      });
+      console.log("min", this.minCommentId, "max", this.maxCommentId);
     });
-  }
-
-  loadLatestComments(show: boolean) {
-    if(show)
-      this.commentsOpen = true;
-      
-  }
+  } 
 
   onCommentDelete(){
     this.reloadComments(GetMode.Begin);
@@ -79,8 +112,7 @@ export class PostComponent implements OnInit, OnDestroy{
         this.reloadComments(GetMode.Range, commentId);
       });
       elem.value = "";
-    })
-   
+    });   
   }
 
   public onClickComments() {
@@ -90,15 +122,9 @@ export class PostComponent implements OnInit, OnDestroy{
       return;
     }
 
-    this.propaganda.getComments(GetMode.Begin, 0, this.post.id, 0).subscribe((response)=>{
-      if(response.success)
-        this.comments = response.comments;
-      
-      this.commentsOpen = true;
-    });
+    
+    this.reloadComments(GetMode.Begin, 0);
   }
-
-  
 
   onClickLike() {
     if(this.post.liked)
