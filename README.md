@@ -1,15 +1,13 @@
 # Propaganda Client
 
 ## To do
-- Add spinner on comment send
 - check loaders: dismiss in case of failure
 - auto-follow when comment
 - load more comments button on posts
 - load more posts/comments button on profile
 - notifications for received likes
-- delete notification
-- aggiornare i core
-- send report
+- refresh cores
+- report profile
 - refresh notifications in background and show a number on the icon
 - show an alert when you have no more likes
 

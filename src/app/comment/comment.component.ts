@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { ActionSheetController, LoadingController, NavController } from '@ionic/angular';
 import { Subject } from 'rxjs';
-import { Comment, LikeType, Profile, PropagandaService } from '../services/propaganda.service';
+import { Comment, LikeType, Profile, PropagandaService, ReportMotivation, ReportType } from '../services/propaganda.service';
 import { Translation } from '../services/Translation.model';
 import { AlertService } from '../shared/alert.service';
 
@@ -91,6 +91,21 @@ export class CommentComponent implements OnInit {
           data: 10,
           handler: () => {
             console.log('Report spoiler clicked');
+
+            this.loader.create({
+              message: "Reporting...",
+            }).then((el)=>{
+              el.present(); 
+              this.propaganda.report(this.comment.id, ReportType.Comment, ReportMotivation.Spoiler).subscribe((success) =>{
+                console.log("deleting success? ", success);
+                el.dismiss();
+                if(success)
+                  this.alert.show("Done", null, "Thanks for your report, it will be handled by a moderator", ["OK"]);
+                else
+                  this.alert.show("Error", null, "Something went wrong during report", ["OK"]);
+              });
+            });
+
           }
         }
         , {
@@ -99,6 +114,21 @@ export class CommentComponent implements OnInit {
           data: 10,
           handler: () => {
             console.log('Report Inappropriate clicked');
+            
+            this.loader.create({
+              message: "Reporting...",
+            }).then((el)=>{
+              el.present(); 
+              this.propaganda.report(this.comment.id, ReportType.Comment, ReportMotivation.Inappropriate).subscribe((success) =>{
+                console.log("deleting success? ", success);
+                el.dismiss();
+                if(success)
+                  this.alert.show("Done", null, "Thanks for your report, it will be handled by a moderator", ["OK"]);
+                else
+                  this.alert.show("Error", null, "Something went wrong during report", ["OK"]);
+              });
+            });
+            
           }
         },
       ]

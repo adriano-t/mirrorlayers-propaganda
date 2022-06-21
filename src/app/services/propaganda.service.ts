@@ -34,7 +34,7 @@ export class PropagandaService {
   private readonly filenameSearch = "search.php";
   private readonly filenameGetNotifications = "getnotifications.php";
   private readonly filenameDeleteNotification = "deletenotification.php";
-  // private readonly filenameReport = "report.php";
+  private readonly filenameReport = "report.php";
   // private readonly filenameEnigma = "enigma.php";
   // private readonly filenameDownload = "download.php";
   // private readonly filenameGetVariables = "getvariables.php";
@@ -411,6 +411,24 @@ export class PropagandaService {
     );
   }  
 
+  report(target: number, type: ReportType, motivation: ReportMotivation) {
+  const jsonData : ReportInfo = {
+    target: target,
+    type: type,
+    motivation: motivation 
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(jsonData));
+
+    return this.http
+    .post<Result>(
+      this.baseAddress1 + this.filenameReport + this.devTest, 
+      formData, 
+      {withCredentials: true, })
+    .pipe(
+      take(1)
+    );
+  }  
 
   // FUNCTION_NAME() {
   // const jsonData : DATA_INFO = {
@@ -431,7 +449,6 @@ export class PropagandaService {
   //         console.log(data);
   //         if(!data.success) {
   //           console.log(data.errors);
-  //           this.nav.navigateRoot(['/auth']);
   //           return false;
   //         }
  
@@ -724,8 +741,8 @@ export interface DeleteNotificationInfo {
 
 export interface ReportInfo {
   target: number;
-  type: number;
-  motivation: number;
+  type: ReportType;
+  motivation: ReportMotivation;
 }
 
 export interface DownloadInfo {
@@ -742,3 +759,6 @@ export enum NotificationType {
   Like = "1",
   Progress = "2",
 }
+
+export enum ReportType { Post = 1, Comment = 2, Profile = 3 };
+export enum ReportMotivation { Inappropriate = 1, Spoiler = 2 };

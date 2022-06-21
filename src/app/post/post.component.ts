@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActionSheetController, IonTextarea, LoadingController, NavController } from '@ionic/angular';
 import { Subject, Subscription } from 'rxjs';
-import { Comment, GetMode, LikeType, Post, Profile, PropagandaService } from '../services/propaganda.service';
+import { Comment, GetMode, LikeType, Post, Profile, PropagandaService, ReportMotivation, ReportType } from '../services/propaganda.service';
 import { Translation } from '../services/Translation.model';
 import { AlertService } from '../shared/alert.service';
 
@@ -64,18 +64,23 @@ export class PostComponent implements OnInit, OnDestroy{
     this.post.comments_count--;
   }
 
-  sendComment(elem: IonTextarea) {
-    
-    this.propaganda.createComment(this.post.id, elem.value, false).subscribe((commentId) => {
-      if(!commentId) {
-        this.alert.show("Error", null, "Impossible to send comment", ["OK"]);
-        return;
-      }
-
-     this.reloadComments(GetMode.Range, commentId);
-      
+  sendComment(elem: IonTextarea) { 
+    this.loader.create({
+      message: "Sending",
+    }).then(el => {
+      el.present(); 
+      this.propaganda.createComment(this.post.id, elem.value, false).subscribe((commentId) => {
+        el.dismiss();
+        if(!commentId) {
+          this.alert.show("Error", null, "Impossible to send comment", ["OK"]);
+          return;
+        }
+  
+        this.reloadComments(GetMode.Range, commentId);
+      });
+      elem.value = "";
     })
-    elem.value = "";
+   
   }
 
   public onClickComments() {
@@ -155,6 +160,22 @@ export class PostComponent implements OnInit, OnDestroy{
           data: 10,
           handler: () => {
             console.log('Report spoiler clicked');
+            
+            this.loader.create({
+              message: "Reporting...",
+            }).then((el)=>{
+              el.present();
+
+              this.propaganda.report(this.post.id, ReportType.Post, ReportMotivation.Spoiler).subscribe((success) =>{
+                console.log("deleting success? ", success);
+                el.dismiss();
+                if(success)
+                  this.alert.show("Done", null, "Thanks for your report, it will be handled by a moderator", ["OK"]);
+                else
+                  this.alert.show("Error", null, "Something went wrong during report", ["OK"]);
+              });
+            });
+
           }
         }
         , {
@@ -163,6 +184,21 @@ export class PostComponent implements OnInit, OnDestroy{
           data: 10,
           handler: () => {
             console.log('Report Inappropriate clicked');
+
+            this.loader.create({
+              message: "Reporting...",
+            }).then((el)=>{
+              el.present();
+
+              this.propaganda.report(this.post.id, ReportType.Post, ReportMotivation.Inappropriate).subscribe((success) =>{
+                console.log("deleting success? ", success);
+                el.dismiss();
+                if(success)
+                  this.alert.show("Done", null, "Thanks for your report, it will be handled by a moderator", ["OK"]);
+                else
+                  this.alert.show("Error", null, "Something went wrong during report", ["OK"]);
+              });
+            });
           }
         },
       ]
