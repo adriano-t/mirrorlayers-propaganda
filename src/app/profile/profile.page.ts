@@ -15,6 +15,8 @@ export class ProfilePage implements OnInit {
   followed: Post[];
   isLoading = false;
   tab = 0;
+  minId = 1;
+  canLoadMore = false;
 
   genders = [
     "Male",
@@ -32,46 +34,101 @@ export class ProfilePage implements OnInit {
     this.propaganda.getProfile(userId).subscribe((result) => {
       if(result.success) {
         this.profile = result.profile;
-        this.loadPosts();
+        this.loadPosts(GetMode.Begin, 0);
       }
     });
 
   }
 
-  loadPosts() {
+  loadPosts(mode: GetMode, id: number) {
     if(this.isLoading)
       return;
-    this.isLoading = true;
-    this.propaganda.getPosts(GetMode.Begin, 0, 0, 255, this.profile.id, false, Language.All, SortMode.Enigma).subscribe((result) => {
-      if (result.success) {
-        this.isLoading = false;
-        this.posts = result.posts;
-      }
-    });
-  }
-
-  loadComments() {
-    if(this.isLoading)
-      return;
-    this.isLoading = true;
-    this.propaganda.getComments(GetMode.Begin, 0, 0, this.profile.id).subscribe((result) => {
+    this.isLoading = true; 
+    this.propaganda.getPosts(mode, id, 0, 255, this.profile.id, false, Language.All, SortMode.Enigma).subscribe((result) => {
+      
       this.isLoading = false;
       if (result.success) {
-        this.comments = result.comments;
+        if(mode == GetMode.Before)
+          this.posts.push(...result.posts);
+        else
+          this.posts = result.posts;
       }
+
+      this.canLoadMore = result.posts?.length >= 10;
+      
+      //update last id
+      this.minId = Number.MAX_SAFE_INTEGER;
+      this.posts?.forEach(post => {
+        if(+post.id < +this.minId)
+          this.minId = post.id;
+      });
+    });
+
+  }
+
+  loadComments(mode: GetMode, id: number) {
+    if(this.isLoading)
+      return; 
+    this.isLoading = true;
+    this.propaganda.getComments(mode, id, 0, this.profile.id).subscribe((result) => {
+      this.isLoading = false;
+      if (result.success) { 
+        if(mode == GetMode.Before)
+          this.comments.push(...result.comments);
+        else
+          this.comments = result.comments;
+      }
+      
+      this.canLoadMore = result.comments?.length >= 10;
+      //update last id
+      this.minId = Number.MAX_SAFE_INTEGER;
+      this.comments?.forEach(comment => {
+        if(+comment.id < +this.minId){
+          this.minId = comment.id;
+        }
+      });
     });
   }
 
-  loadFollowed() {
+  loadFollowed(mode: GetMode, id: number) {
     if(this.isLoading)
       return;
     this.isLoading = true;
-    this.propaganda.getPosts(GetMode.Begin, 0, 0, 255, this.profile.id, true, Language.All, SortMode.Enigma).subscribe((result) => {
+    this.propaganda.getPosts(mode, id, 0, 255, this.profile.id, true, Language.All, SortMode.Enigma).subscribe((result) => {
+      this.isLoading = false;
       if (result.success) {
-        this.isLoading = false;
-        this.followed = result.posts;
+        if(mode == GetMode.Before)
+          this.followed.push(...result.posts);
+        else
+          this.followed = result.posts;
       }
+
+      this.canLoadMore = result.posts?.length >= 10;
+      
+      //update last id
+      this.minId = Number.MAX_SAFE_INTEGER;
+      this.followed?.forEach(post => {
+        if(+post.id < +this.minId)
+          this.minId = post.id;
+      });
     });
+  }
+
+  loadMore() {
+    if(this.isLoading)
+      return;
+
+    switch(this.tab) {
+      case 0:
+        this.loadPosts(GetMode.Before, this.minId);
+        break;
+      case 1:
+        this.loadComments(GetMode.Before, this.minId);
+        break;
+      case 2:
+        this.loadFollowed(GetMode.Before, this.minId);
+        break;
+    }
   }
 
   onCommentDelete() {
@@ -84,17 +141,17 @@ export class ProfilePage implements OnInit {
     switch(event.detail.value) {
       case "posts":
         this.tab = 0;
-        this.loadPosts();
+        this.loadPosts(GetMode.Begin, 0);
         break;
         
       case "comments":
         this.tab = 1;
-        this.loadComments();
+        this.loadComments(GetMode.Begin, 0);
         break;
         
       case "followed":
         this.tab = 2;
-        this.loadFollowed();
+        this.loadFollowed(GetMode.Begin, 0);
         break;
     }
   }

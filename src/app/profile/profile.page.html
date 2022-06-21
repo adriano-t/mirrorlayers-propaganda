@@ -107,6 +107,7 @@
       </ion-col>
       <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
     </ion-row>
+
     
     <ion-row *ngIf="tab === 1" class="ion-justify-content-center">
       <ion-col *ngIf="comments&& comments.length > 0">
@@ -126,6 +127,16 @@
         No followed posts.
       </ion-col>
       <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+    </ion-row>
+
+    
+    
+    <ion-row *ngIf="canLoadMore" >
+      <ion-col  class="ion-align-items-center ion-text-center">
+        <ion-button fill="clear" (click)="loadMore()">
+          <ion-text>Load More</ion-text>
+        </ion-button>
+      </ion-col>
     </ion-row>
 
   </ion-grid>

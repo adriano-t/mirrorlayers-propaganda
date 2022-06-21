@@ -82,9 +82,9 @@ export class PostComponent implements OnInit, OnDestroy{
       this.maxCommentId = 1;
       this.minCommentId = Number.MAX_SAFE_INTEGER;
       this.comments?.forEach(comment => {
-        if(comment.id > this.maxCommentId)
+        if(+comment.id > +this.maxCommentId)
           this.maxCommentId = comment.id;
-        if (comment.id < this.minCommentId)
+        if (+comment.id < +this.minCommentId)
           this.minCommentId = comment.id;
       });
       console.log("min", this.minCommentId, "max", this.maxCommentId);
