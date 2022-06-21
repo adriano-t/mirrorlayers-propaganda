@@ -23,6 +23,7 @@ export class PostComponent implements OnInit, OnDestroy{
   maxCommentId = 1;
   canLoadNext = true;
   canLoadPrevious = false;
+  spoiler = false;
 
   constructor(
     private propaganda:PropagandaService,
@@ -37,6 +38,8 @@ export class PostComponent implements OnInit, OnDestroy{
     this.sub = this.propaganda.profileCallback.subscribe((profile) => {
       this.profile = profile;
       this.onShow.next(null);
+      this.spoiler = this.post.spoiler || +this.post.enigma > +this.profile.enigma || 
+        (+this.post.enigma == +this.profile.enigma && +this.post.section > +this.profile.section);
     });
   }
  

@@ -25,3 +25,21 @@ ion-card{
     right: 0;
     position: absolute;
 }
+
+.blur {
+    filter: blur(20px) brightness(0.2);
+}
+
+.spoiler { 
+    z-index: 1;
+    width: calc(100% - 10px);
+    height: 100%;
+    position: absolute; 
+    display: flex!important; 
+    align-items: center!important;
+    justify-content: center;
+
+    ion-button {
+        max-height: calc(100% - 5px);
+    }
+}

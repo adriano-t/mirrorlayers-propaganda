@@ -105,6 +105,7 @@ export class PropagandaService {
   }
 
   public refreshProfile(id) {
+    console.log("refreshing profile", id)
     this.getProfile(id).subscribe((response) => {
       this.profile = response.profile;
       this.profileCallback.next(this.profile);

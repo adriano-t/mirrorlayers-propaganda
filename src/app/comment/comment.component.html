@@ -22,14 +22,21 @@
     </ion-row> 
     <ion-row>
       <ion-col size-xs="12">
-        <ion-text [innerHTML]="getMessage(comment)"></ion-text>
+        <div class="spoiler ion-text-center" *ngIf="spoiler">
+          <ion-text class="ion-align-content-center">May contain spoilers</ion-text> 
+          <ion-button fill="clear" >
+            <ion-icon name="eye" slot="start"></ion-icon>
+            <ion-text >Show</ion-text>
+          </ion-button>
+        </div>
+        <ion-text [ngClass]="{blur: spoiler}" [innerHTML]="getMessage(comment)"></ion-text>
       </ion-col> 
     </ion-row>
 
     <ion-row *ngIf="comment.preview">
       <ion-col size-xs="12"> 
           
-      <ion-img [src]="'https://mirrorlayers.com/propaganda/uploads/' + comment.filename + '.jpg'" ></ion-img>
+      <ion-img [ngClass]="{blur: spoiler}" [src]="'https://mirrorlayers.com/propaganda/uploads/' + comment.filename + '.jpg'" ></ion-img>
       
       </ion-col> 
     </ion-row>

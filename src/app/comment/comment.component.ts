@@ -15,6 +15,7 @@ export class CommentComponent implements OnInit {
   @Input() comment: Comment;
   @Input() profile: Profile;
   @Output() onDelete = new Subject();
+  spoiler = false;
 
   constructor(private propaganda:PropagandaService,
     private alert: AlertService,
@@ -23,7 +24,11 @@ export class CommentComponent implements OnInit {
     private nav: NavController,
     ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+
+     this.spoiler = this.comment.spoiler || +this.comment.enigma > +this.profile.enigma || 
+    (+this.comment.enigma == +this.profile.enigma && +this.comment.section > +this.profile.section);
+  }
 
   
   onClickLike() {

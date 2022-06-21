@@ -12,6 +12,7 @@ import { AlertService } from '../shared/alert.service';
 export class ProfilePage implements OnInit {
 
   profile: Profile;
+  me: Profile;
   posts: Post[];
   comments: Comment[];
   followed: Post[];
@@ -43,6 +44,10 @@ export class ProfilePage implements OnInit {
         this.loadPosts(GetMode.Begin, 0);
       }
     });
+
+    this.propaganda.profileCallback.subscribe(profile => {
+      this.me = profile;
+    })
 
   }
 

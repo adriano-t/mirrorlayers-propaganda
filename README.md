@@ -3,10 +3,10 @@
 ## To do
 - hide comments marked as spoiler and the ones with enigma > my enigma
 - button to view a comment in context if we click from a profile
-- report profile
-- refresh notifications in background and show a number on the icon
-- notifications for received likes
 - auto-follow when comment
+- refresh notifications in background
+- show a red dot on the notification icon
+- notifications for received likes
 - show an alert when you have no more likes
 - check loaders: dismiss in case of failure
 
