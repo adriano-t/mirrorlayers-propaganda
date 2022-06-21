@@ -1,7 +1,6 @@
 # Propaganda Client
 
 ## To do
-- load more posts/comments button on profile
 - hide comments marked as spoiler and the ones with enigma > my enigma
 - button to view a comment in context if we click from a profile
 - report profile

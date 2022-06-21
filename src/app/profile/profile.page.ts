@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Comment, GetMode, Language, Post, Profile, PropagandaService, SortMode } from '../services/propaganda.service';
+import { ActionSheetController, LoadingController } from '@ionic/angular';
+import { Comment, GetMode, Language, Post, Profile, PropagandaService, ReportMotivation, ReportType, SortMode } from '../services/propaganda.service';
+import { AlertService } from '../shared/alert.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,9 +25,13 @@ export class ProfilePage implements OnInit {
     "Female",
     "Unknown"
   ]
+
   constructor(
     private propaganda: PropagandaService,
     private route: ActivatedRoute,
+    private loader: LoadingController,
+    private actionSheetController: ActionSheetController,
+    private alert: AlertService,
   ) { }
 
   ngOnInit() {
@@ -154,6 +160,55 @@ export class ProfilePage implements OnInit {
         this.loadFollowed(GetMode.Begin, 0);
         break;
     }
+  }
+
+
+  onClickOptions() {
+    this.presentActionSheet();
+  }
+
+  async presentActionSheet() {
+
+    const buttons = [{
+          text: 'Report profile',
+          icon: 'flag',
+          data: 10,
+          handler: () => {
+            console.log('Report Inappropriate clicked');
+
+            this.loader.create({
+              message: "Reporting...",
+            }).then((el)=>{
+              el.present(); 
+              this.propaganda.report(this.profile.id, ReportType.Profile, ReportMotivation.Inappropriate).subscribe((success) =>{
+                console.log("deleting success? ", success);
+                el.dismiss();
+                if(success)
+                  this.alert.show("Done", null, "Thanks for your report, it will be handled by a moderator", ["OK"]);
+                else
+                  this.alert.show("Error", null, "Something went wrong during report", ["OK"]);
+              });
+            });
+            
+          }
+        },
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {}
+        }
+      ]
+ 
+
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Comment options',
+      buttons: buttons
+    });
+    await actionSheet.present();
+
+    // const { role, data } = await actionSheet.onDidDismiss();
+    // console.log('onDidDismiss resolved with role and data', role, data);
   }
 
 }
