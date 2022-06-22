@@ -78,6 +78,7 @@ export class PostComponent implements OnInit, OnDestroy{
       if(response.success) {
         if(mode == GetMode.Range) { 
           this.canLoadPrevious = response.comments.length >= 5;
+          this.comments = response.comments;
         } else if(mode == GetMode.Before) {
           this.comments.unshift(...response.comments);
           this.canLoadPrevious = response.comments.length > 0;
