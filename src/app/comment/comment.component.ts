@@ -16,6 +16,8 @@ export class CommentComponent implements OnInit {
   @Input() profile: Profile;
   @Output() onDelete = new Subject();
   spoiler = false;
+  spoilerMessage = "May contain spoilers";
+  laterEnigma = false;
 
   constructor(private propaganda:PropagandaService,
     private alert: AlertService,
@@ -26,8 +28,15 @@ export class CommentComponent implements OnInit {
 
   ngOnInit() {
 
-     this.spoiler = this.comment.spoiler || +this.comment.enigma > +this.profile.enigma || 
+    this.laterEnigma = +this.comment.enigma > +this.profile.enigma || 
     (+this.comment.enigma == +this.profile.enigma && +this.comment.section > +this.profile.section);
+
+    if(this.spoiler) {
+      this.spoilerMessage = "May contain spoilers";
+    } else if (this.laterEnigma) {
+      this.spoilerMessage = "Sent from a later Enigma";
+    }
+     this.spoiler = this.comment.spoiler || this.laterEnigma;
   }
 
   
@@ -167,6 +176,10 @@ export class CommentComponent implements OnInit {
 
   onClickOptions() {
     this.presentActionSheet();
+  }
+
+  showSpoiler() {
+    this.spoiler = false;
   }
 
 }

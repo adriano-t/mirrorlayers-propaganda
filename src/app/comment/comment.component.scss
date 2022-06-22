@@ -26,9 +26,14 @@ ion-card{
     position: absolute;
 }
 
+.blur-low {
+    filter: blur(3px);
+}
+
 .blur {
     filter: blur(20px) brightness(0.2);
 }
+
 
 .spoiler { 
     z-index: 1;

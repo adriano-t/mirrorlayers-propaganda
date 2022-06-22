@@ -10,7 +10,7 @@
       <ion-col size-xs="7" class="user-column">
         <ion-text color="primary" class="nickname">{{comment.name}}</ion-text><br/>
         <ion-text>{{comment.time}}</ion-text> <br/>
-        <ion-text color="tertiary">Enigma {{comment.enigma + "." + comment.section}}</ion-text> <br/>
+        <ion-text color="tertiary" *ngIf="!laterEnigma">Enigma {{comment.enigma + "." + comment.section}}</ion-text> <br/>
       </ion-col>
       
       <ion-col class="ion-text-center options-button" >
@@ -23,8 +23,8 @@
     <ion-row>
       <ion-col size-xs="12">
         <div class="spoiler ion-text-center" *ngIf="spoiler">
-          <ion-text class="ion-align-content-center">May contain spoilers</ion-text> 
-          <ion-button fill="clear" >
+          <ion-text class="ion-align-content-center">{{spoilerMessage}}</ion-text> 
+          <ion-button fill="clear" (click)="showSpoiler()" >
             <ion-icon name="eye" slot="start"></ion-icon>
             <ion-text >Show</ion-text>
           </ion-button>

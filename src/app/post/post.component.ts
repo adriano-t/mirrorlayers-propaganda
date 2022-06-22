@@ -24,6 +24,8 @@ export class PostComponent implements OnInit, OnDestroy{
   canLoadNext = true;
   canLoadPrevious = false;
   spoiler = false;
+  spoilerMessage = "May contain spoilers";
+  laterEnigma = false;
 
   constructor(
     private propaganda:PropagandaService,
@@ -38,8 +40,16 @@ export class PostComponent implements OnInit, OnDestroy{
     this.sub = this.propaganda.profileCallback.subscribe((profile) => {
       this.profile = profile;
       this.onShow.next(null);
-      this.spoiler = this.post.spoiler || +this.post.enigma > +this.profile.enigma || 
-        (+this.post.enigma == +this.profile.enigma && +this.post.section > +this.profile.section);
+     
+      this.laterEnigma = +this.post.enigma > +this.profile.enigma || 
+      (+this.post.enigma == +this.profile.enigma && +this.post.section > +this.profile.section);
+  
+      if(this.spoiler) {
+        this.spoilerMessage = "May contain spoilers";
+      } else if (this.laterEnigma) {
+        this.spoilerMessage = "Sent from a later Enigma";
+      }
+       this.spoiler = this.post.spoiler || this.laterEnigma;
     });
   }
  
@@ -273,5 +283,9 @@ export class PostComponent implements OnInit, OnDestroy{
 
   onClickOptions() {
     this.presentActionSheet();
+  }
+
+  showSpoiler() {
+    this.spoiler = false;
   }
 }

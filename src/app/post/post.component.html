@@ -6,11 +6,11 @@
         <ion-avatar>
           <img [src]="post.avatar | avatar" (click)="visitProfile(post.author)">
         </ion-avatar>
-      </ion-col> 
+      </ion-col>
       <ion-col size-xs="8"  class="ion-padding">
         <ion-text color="primary" class="nickname">{{post.name}}</ion-text><br/>
         <ion-text>{{post.time}}</ion-text><br/>
-        <ion-text color="tertiary">Enigma {{post.enigma + "." + post.section}}</ion-text> <br/>
+        <ion-text color="tertiary" *ngIf="!laterEnigma">Enigma {{post.enigma + "." + post.section}}</ion-text> <br/>
       </ion-col>
 
       <ion-col class="ion-text-center options-button" >
@@ -23,8 +23,8 @@
     <ion-row>
       <ion-col size-xs="12">
         <div class="spoiler ion-text-center" *ngIf="spoiler">
-          <ion-text class="ion-align-content-center">May contain spoilers</ion-text> 
-          <ion-button fill="clear" >
+          <ion-text class="ion-align-content-center">{{spoilerMessage}}</ion-text> 
+          <ion-button fill="clear" (click)="showSpoiler()" >
             <ion-icon name="eye" slot="start"></ion-icon>
             <ion-text >Show</ion-text>
           </ion-button>
