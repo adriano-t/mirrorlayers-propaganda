@@ -1,7 +1,7 @@
 <ion-app>
   <ion-router-outlet id="main"></ion-router-outlet>
   
-  <ion-menu side="start" menuId="first" contentId="main">
+  <ion-menu side="start" menuId="first" contentId="main" (ionWillOpen)="onMenuOpen()">
     
     <ion-content *ngIf="profile">
       <ion-grid>
@@ -49,14 +49,26 @@
 
       <ion-row  class="ion-no-margin ion-no-padding">
         <ion-col class="ion-no-margin ion-no-padding">
-        <ion-list>
-          <ion-item detail="true" button="true" (click)="onClickFullscreen()" >
-            <ion-icon slot="start" name="expand"></ion-icon>
-            <ion-label>Fullscreen</ion-label>
-          </ion-item> 
-        </ion-list> 
-      </ion-col>
-    </ion-row>
+          <ion-list>
+            <ion-item detail="true" button="true" (click)="onClickFullscreen()" >
+              <ion-icon slot="start" name="expand"></ion-icon>
+              <ion-label>Fullscreen</ion-label>
+            </ion-item> 
+          </ion-list> 
+        </ion-col>
+      </ion-row>
+
+      
+      <ion-row  class="ion-no-margin ion-no-padding">
+        <ion-col class="ion-no-margin ion-no-padding">
+          <ion-list>
+            <ion-item>
+              <ion-label>Dark Theme</ion-label>
+              <ion-toggle (ionChange)="onToggleDarkMode($event)"></ion-toggle>
+            </ion-item> 
+          </ion-list> 
+        </ion-col>
+      </ion-row>
 
       <ion-row>
         <ion-col>

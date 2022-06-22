@@ -71,7 +71,7 @@
    * -------------------------------------------
    */
 
-  body {
+  body.dark {
     --ion-color-primary: #ededed;
     --ion-color-primary-rgb: 237,237,237;
     --ion-color-primary-contrast: #000000;
@@ -141,7 +141,7 @@
    * -------------------------------------------
    */
 
-  .ios body {
+  .ios body.dark {
     --ion-background-color: #000000;
     --ion-background-color-rgb: 0,0,0;
 
@@ -185,7 +185,7 @@
    * -------------------------------------------
    */
 
-  .md body {
+  .md body.dark {
     --ion-background-color: #121212;
     --ion-background-color-rgb: 18,18,18;
 

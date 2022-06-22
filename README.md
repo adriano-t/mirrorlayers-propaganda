@@ -1,7 +1,6 @@
 # Propaganda Client
 
 ## To do
-- hide comments marked as spoiler and the ones with enigma > my enigma
 - button to view a comment in context if we click from a profile
 - auto-follow when comment
 - refresh notifications in background
@@ -12,6 +11,7 @@
 
 ## Bugs
 - cores are not refreshed when a like is sent
+- user should not be able to report themselves
 
 ## Requirements
 
