@@ -36,8 +36,6 @@ export class AppComponent implements OnInit, OnDestroy {
       let darkTheme = this.prefs.get("dark-theme", true);
       this.toggleDarkTheme(darkTheme);
     });
-  
-
   }
 
 
@@ -61,7 +59,7 @@ export class AppComponent implements OnInit, OnDestroy {
   
   toggleDarkTheme(shouldAdd) {
     document.body.classList.toggle('dark', shouldAdd);
-    this.prefs.set("dark-mode", shouldAdd);
+    this.prefs.set("dark-theme", shouldAdd);
   }
  
 

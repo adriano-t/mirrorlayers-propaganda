@@ -32,7 +32,7 @@ export class PreferencesService  {
   }
 
   get(key: string, defaultValue = null) {
-    if(this.preferences[key]) {
+    if(this.preferences?.hasOwnProperty(key)) {
       return this.preferences[key];
     } else {
       return defaultValue;
@@ -51,6 +51,7 @@ export class PreferencesService  {
   load() {
     this.storage.get("preferences").then(preferences => {
       this.preferences = preferences || {};
+      console.log("preferences", this.preferences);
       this.loaded = true;
     })
   }
