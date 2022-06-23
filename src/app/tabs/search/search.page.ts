@@ -32,12 +32,9 @@ export class SearchPage {
       if(result.success)
         this.profiles = result.profiles;
     });
-    
-    console.log(bar.value);
   }
 
   onClick(profile) {
-    console.log(profile);
     this.nav.navigateForward(['/profile/', profile.id]);
   }
 }

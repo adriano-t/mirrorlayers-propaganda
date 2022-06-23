@@ -33,8 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
     prefersDark.addListener((mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
  
     this.prefs.onLoad().then(() => {
-      let darkTheme = this.prefs.get("dark-theme", null);
-      console.log(darkTheme, "dark theme")
+      let darkTheme = this.prefs.get("dark-theme", true);
       this.toggleDarkTheme(darkTheme);
     });
   
@@ -58,11 +57,11 @@ export class AppComponent implements OnInit, OnDestroy {
     
   onToggleDarkMode(event) {
     this.toggleDarkTheme(event.detail.checked);
-    this.prefs.set("dark-mode", event.detail.checked);
   }
   
   toggleDarkTheme(shouldAdd) {
     document.body.classList.toggle('dark', shouldAdd);
+    this.prefs.set("dark-mode", shouldAdd);
   }
  
 

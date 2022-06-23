@@ -103,14 +103,11 @@ export class CommentComponent implements OnInit {
           icon: 'flag',
           data: 10,
           handler: () => {
-            console.log('Report spoiler clicked');
-
             this.loader.create({
               message: "Reporting...",
             }).then((el)=>{
               el.present(); 
               this.propaganda.report(this.comment.id, ReportType.Comment, ReportMotivation.Spoiler).subscribe((success) =>{
-                console.log("deleting success? ", success);
                 el.dismiss();
                 if(success)
                   this.alert.show("Done", null, "Thanks for your report, it will be handled by a moderator", ["OK"]);
@@ -126,14 +123,11 @@ export class CommentComponent implements OnInit {
           icon: 'flag',
           data: 10,
           handler: () => {
-            console.log('Report Inappropriate clicked');
-
             this.loader.create({
               message: "Reporting...",
             }).then((el)=>{
               el.present(); 
               this.propaganda.report(this.comment.id, ReportType.Comment, ReportMotivation.Inappropriate).subscribe((success) =>{
-                console.log("deleting success? ", success);
                 el.dismiss();
                 if(success)
                   this.alert.show("Done", null, "Thanks for your report, it will be handled by a moderator", ["OK"]);
@@ -160,7 +154,6 @@ export class CommentComponent implements OnInit {
     await actionSheet.present();
 
     // const { role, data } = await actionSheet.onDidDismiss();
-    // console.log('onDidDismiss resolved with role and data', role, data);
   }
 
   getMessage(comment: Comment){

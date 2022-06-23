@@ -25,12 +25,12 @@ export class NotificationsPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-      console.log("notification started");
+      console.log("notification service started");
       this.isLoading = true;
       this.notifService.callback.subscribe((notifications: Notification[]) => {
         this.notifications = notifications;
         this.isLoading = false;
-      })
+      });
   }
 
   getNotificationId(notification: Notification): string {
@@ -64,7 +64,6 @@ export class NotificationsPage implements OnInit {
   }
 
   onClick(notification: Notification) {
-    console.log(notification);
     if(notification.type == NotificationType.Comment) {
       this.nav.navigateForward(["/post/", notification.postid]);
     }

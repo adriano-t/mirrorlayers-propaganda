@@ -23,7 +23,6 @@ export class PostPage implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.propaganda.getPosts(GetMode.Exact, params.id, 0, 255, 0, false, Language.All, SortMode.Date).subscribe(result => {
-        console.log(result);
         if(result.success) {
           if(result.posts.length > 0){
             this.post = result.posts[0];

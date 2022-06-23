@@ -143,12 +143,11 @@ export class ProfilePage implements OnInit {
   }
 
   onCommentDelete() {
-    console.log("deleted comment");
+    console.log("TODO: refresh on delete");
     //todo refresh
   }
 
   segmentChanged(event) {
-    console.log(event.detail.value);
     switch(event.detail.value) {
       case "posts":
         this.tab = 0;
@@ -179,14 +178,11 @@ export class ProfilePage implements OnInit {
           icon: 'flag',
           data: 10,
           handler: () => {
-            console.log('Report Inappropriate clicked');
-
             this.loader.create({
               message: "Reporting...",
             }).then((el)=>{
               el.present(); 
               this.propaganda.report(this.profile.id, ReportType.Profile, ReportMotivation.Inappropriate).subscribe((success) =>{
-                console.log("deleting success? ", success);
                 el.dismiss();
                 if(success)
                   this.alert.show("Done", null, "Thanks for your report, it will be handled by a moderator", ["OK"]);
@@ -213,7 +209,6 @@ export class ProfilePage implements OnInit {
     await actionSheet.present();
 
     // const { role, data } = await actionSheet.onDidDismiss();
-    // console.log('onDidDismiss resolved with role and data', role, data);
   }
 
 }

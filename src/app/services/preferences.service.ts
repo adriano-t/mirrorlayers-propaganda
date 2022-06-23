@@ -23,7 +23,6 @@ export class PreferencesService  {
       if(this.loaded)
         resolve();
       const interval = setInterval(() => {
-        console.log("checking");
         if(this.loaded) {
           clearInterval(interval);
           resolve();
@@ -52,7 +51,6 @@ export class PreferencesService  {
   load() {
     this.storage.get("preferences").then(preferences => {
       this.preferences = preferences || {};
-      console.log(this.preferences);
       this.loaded = true;
     })
   }

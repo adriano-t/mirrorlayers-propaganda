@@ -105,7 +105,6 @@ export class PropagandaService {
   }
 
   public refreshProfile(id) {
-    console.log("refreshing profile", id)
     this.getProfile(id).subscribe((response) => {
       this.profile = response.profile;
       this.profileCallback.next(this.profile);
@@ -221,7 +220,6 @@ export class PropagandaService {
       take(1),
       map(
         (data) : number  => {
-          console.log(data);
           if(!data.success) {
             console.log(data.errors);
             return 0;
@@ -298,7 +296,6 @@ export class PropagandaService {
       take(1),
       map(
         (data) : boolean => {
-          console.log(data);
           if(!data.success) {
             console.log(data.errors);
             return false;
@@ -327,7 +324,6 @@ export class PropagandaService {
       take(1),
       map(
         (data) : Notification[] => {
-          console.log(data);
           if(!data.success) {
             console.log(data.errors);
             return null;
@@ -354,7 +350,6 @@ export class PropagandaService {
     .pipe(
       take(1),
       map((data: Result) : boolean => {
-          console.log(data);
           if(!data.success) {
             console.log(data.errors); 
             return false;
@@ -399,7 +394,6 @@ export class PropagandaService {
       take(1),
       map(
         (data) : boolean => {
-          console.log(data);
           if(!data.success) {
             console.log(data.errors);
             this.nav.navigateRoot(['/auth']);
@@ -447,7 +441,6 @@ export class PropagandaService {
   //     take(1),
   //     map(
   //       (data) : boolean => {
-  //         console.log(data);
   //         if(!data.success) {
   //           console.log(data.errors);
   //           return false;

@@ -82,11 +82,10 @@ export class HomePage implements OnInit, OnDestroy{
     this.propaganda.getPosts(GetMode.Page, 0, this.page, this.enigma, 0, false, this.propaganda.language, this.sortMode).subscribe((result) => {
       this.isLoading = false;
       if(result.success) { 
-        console.log("reloaded posts");
         this.posts = result.posts;
       } else {
         //@Todo show error
-        console.log("error", result.errors);
+        console.log("TODO: error", result.errors);
       }
     });
   }
@@ -96,19 +95,7 @@ export class HomePage implements OnInit, OnDestroy{
     let currentPage = this.page; 
     currentPage++;
     
-    this.nav.navigateForward(['/tabs/home', currentPage]);
-    
-    // this.propaganda.getPosts(GetMode.Page, 0, currentPage, this.enigma, 0, false, this.language, this.sortMode).subscribe((result) => {
-    //   if(result.success) { 
-    //     this.posts = result.posts;
-    //     this.page = currentPage;
-    //     this.content.scrollToTop();
-    //   } else {
-    //     //@Todo show error
-    //     console.log("error", result.errors);
-    //   }
-    // });
-    
+    this.nav.navigateForward(['/tabs/home', currentPage]);    
   }
 
   onClickPreviousPage() {
@@ -118,17 +105,6 @@ export class HomePage implements OnInit, OnDestroy{
 
     currentPage--;
     this.nav.navigateBack(['/tabs/home', currentPage]);
-    
-    // this.propaganda.getPosts(GetMode.Page, 0, currentPage, this.enigma, 0, false, this.language, this.sortMode).subscribe((result) => {
-    //   if(result.success) { 
-    //     this.posts = result.posts;
-    //     this.page = currentPage;
-    //     this.content.scrollToTop();
-    //   } else {
-    //     //@Todo show error
-    //     console.log("error", result.errors);
-    //   }
-    // });
   }
 
   onChangeEnigma(event){
@@ -144,7 +120,6 @@ export class HomePage implements OnInit, OnDestroy{
 
 
   segmentChanged(event) {
-    console.log(event.detail.value);
     if(event.detail.value === 'enigma')
       this.sortMode = SortMode.Enigma;
     else
