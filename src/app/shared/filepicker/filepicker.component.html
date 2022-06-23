@@ -1,0 +1,35 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Choose a file</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-radio-group value="" *ngIf="!isLoading" (ionChange)="onSelect($event)">
+      <ion-list-header>
+        <ion-label>Files sent from the game</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>None</ion-label>
+        <ion-radio slot="start" color="secondary" value=""></ion-radio>
+      </ion-item>
+
+      <ion-item *ngFor="let file of files">
+        <ion-label>{{file}}</ion-label>
+        <ion-radio slot="start" color="secondary" [value]="file"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+    
+    <div class="justify-content-center ion-text-center">
+      <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+    </div>
+  </ion-list>
+</ion-content> 

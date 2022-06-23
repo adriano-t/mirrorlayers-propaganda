@@ -35,6 +35,7 @@ export class PropagandaService {
   private readonly filenameGetNotifications = "getnotifications.php";
   private readonly filenameDeleteNotification = "deletenotification.php";
   private readonly filenameReport = "report.php";
+  private readonly filenameGetSentFiles = "getsentfiles.php";
   // private readonly filenameEnigma = "enigma.php";
   // private readonly filenameDownload = "download.php";
   // private readonly filenameGetVariables = "getvariables.php";
@@ -202,11 +203,12 @@ export class PropagandaService {
   }
 
   
-  createComment(postId: number, message: string, spoiler: boolean) {
+  createComment(postId: number, message: string, spoiler: boolean, filename?: string) {
   const jsonData : CreateCommentInfo = {
     "postID": postId,
     "message": message,
     "spoiler": spoiler,
+    "filename_link": filename,
   };
   const formData = new FormData();
   formData.append("data", JSON.stringify(jsonData));
@@ -425,13 +427,27 @@ export class PropagandaService {
     );
   }  
 
-  // FUNCTION_NAME() {
-  // const jsonData : DATA_INFO = {
-  //   "a": a,
-  // };
-  // const formData = new FormData();
-  // formData.append("data", JSON.stringify(jsonData));
+  getSentFiles() {
+    const jsonData : GetSentFilesInfo = {};
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(jsonData));
+  
+    return this.http
+    .post<GetSentFilesResult>(
+      this.baseAddress1 + this.filenameGetSentFiles + this.devTest, 
+      formData, 
+      {withCredentials: true, })
+    .pipe(
+      take(1)
+    );
+  }  
 
+  // FUNCTION_NAME() {
+  //   const jsonData : DATA_INFO = {
+  //     "a": a,
+  //   };
+  //   const formData = new FormData();
+  //   formData.append("data", JSON.stringify(jsonData));
   //   return this.http
   //   .post<RESULT_TYPE>(
   //     this.baseAddress1 + this.filename + this.devTest, 
@@ -445,7 +461,7 @@ export class PropagandaService {
   //           console.log(data.errors);
   //           return false;
   //         }
- 
+
   //         return true;
   //       }
   //     )
@@ -628,11 +644,15 @@ export interface GetCommentsResult extends Result {
  
 export interface GetProfileResult extends Result
 {
-    profile: Profile;
+  profile: Profile;
 }
 
 export interface LikeResult extends Result {
 
+}
+
+export interface GetSentFilesResult extends Result {
+  files: string[];
 }
 
 export interface AddLikesResult extends Result {
@@ -671,6 +691,7 @@ export interface CreateCommentInfo {
   postID: number;
   message: string;
   spoiler: boolean;
+  filename_link?: string;
 }
 
 export interface DeleteInfo {
@@ -727,6 +748,10 @@ export interface SearchInfo {
 }
 
 export interface GetNotificationsInfo { 
+}
+
+export interface GetSentFilesInfo {
+
 }
 
 export interface DeleteNotificationInfo {

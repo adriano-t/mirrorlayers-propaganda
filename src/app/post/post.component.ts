@@ -4,6 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { Comment, GetMode, LikeType, Post, Profile, PropagandaService, ReportMotivation, ReportType } from '../services/propaganda.service';
 import { Translation } from '../services/Translation.model';
 import { AlertService } from '../shared/alert.service';
+import { FilepickerService } from '../shared/filepicker/filepicker.service';
 
 @Component({
   selector: 'app-post',
@@ -26,13 +27,15 @@ export class PostComponent implements OnInit, OnDestroy{
   spoiler = false;
   spoilerMessage = "May contain spoilers";
   laterEnigma = false;
+  filename = undefined;
 
   constructor(
     private propaganda:PropagandaService,
     private nav: NavController,
     private alert: AlertService,
     private actionSheetController: ActionSheetController,
-    private loader: LoadingController
+    private loader: LoadingController,
+    private picker: FilepickerService,
     ) {}
 
 
@@ -277,5 +280,15 @@ export class PostComponent implements OnInit, OnDestroy{
 
   showSpoiler() {
     this.spoiler = false;
+  }
+  
+  pickFile() {
+    this.picker.get().then(filename => {
+      this.filename = filename;
+    })
+  }
+
+  clearFile() {
+    this.filename = undefined;
   }
 }
