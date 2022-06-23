@@ -115,7 +115,7 @@ export class PostComponent implements OnInit, OnDestroy{
       message: "Sending",
     }).then(el => {
       el.present(); 
-      this.propaganda.createComment(this.post.id, elem.value, false).subscribe((commentId) => {
+      this.propaganda.createComment(this.post.id, elem.value, false, this.filename).subscribe((commentId) => {
         el.dismiss();
         if(!commentId) {
           this.alert.show("Error", null, "Impossible to send comment", ["OK"]);
@@ -125,6 +125,7 @@ export class PostComponent implements OnInit, OnDestroy{
         this.reloadComments(GetMode.Range, commentId);
       });
       elem.value = "";
+      this.filename = undefined;
     });   
   }
 

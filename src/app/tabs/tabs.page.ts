@@ -1,12 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NotificationsService } from '../services/notifications.service';
 
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss']
 })
-export class TabsPage {
+export class TabsPage implements OnInit {
 
-  constructor() {}
+  notificationsCount: number;
+
+  constructor(
+    private notif: NotificationsService
+  ) {}
+
+  ngOnInit(): void {}
+
+  unreadNotifications() {
+    return this.notif.getUnreadCount();
+  }
 
 }

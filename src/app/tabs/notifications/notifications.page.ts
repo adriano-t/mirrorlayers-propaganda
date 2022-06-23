@@ -14,8 +14,6 @@ export class NotificationsPage implements OnInit {
   notifications: Notification[] = [];
   maxLength = 30;
 
-  readNotifications = new Set();
-
   constructor(
     private actionSheetController: ActionSheetController,
     private notifService: NotificationsService,
@@ -31,15 +29,6 @@ export class NotificationsPage implements OnInit {
         this.notifications = notifications;
         this.isLoading = false;
       });
-  }
-
-  getNotificationId(notification: Notification): string {
-    return notification.postid + "-" + notification.commentid + "-" + notification.type;
-  }
-
-  isUnread(notification: Notification) {
-    
-    return !this.readNotifications.has(this.getNotificationId(notification));
   }
 
   getNotificationMessage(notification: Notification) {
@@ -63,12 +52,15 @@ export class NotificationsPage implements OnInit {
     }
   }
 
+  isUnread(notification: Notification){
+    return this.notifService.isUnread(notification);
+  }
+  
   onClick(notification: Notification) {
     if(notification.type == NotificationType.Comment) {
       this.nav.navigateForward(["/post/", notification.postid]);
     }
-    if(this.isUnread(notification))
-      this.readNotifications.add(this.getNotificationId(notification));
+    this.notifService.setUnread(notification);
   }
 
   onClickDelete(notification: Notification) {

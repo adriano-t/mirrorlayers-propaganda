@@ -11,6 +11,7 @@
 
     <ion-tab-button #t3 tab="notifications">
       <ion-icon [name]="t3.selected ? 'notifications' : 'notifications-outline'"></ion-icon>
+      <span class="badge" *ngIf="unreadNotifications() > 0">{{unreadNotifications()}}</span>
     </ion-tab-button>
   </ion-tab-bar>
 

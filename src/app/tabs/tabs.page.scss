@@ -1,1 +1,10 @@
-
+.badge {
+    padding: 2pt 4pt;
+    font-size: 10pt;
+    position: absolute;
+    background: var(--ion-color-danger);
+    border-radius: 10pt;
+    margin-left: 15pt;
+    margin-bottom: 10pt;
+    color: var(--ion-color-primary);
+}
