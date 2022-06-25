@@ -12,6 +12,7 @@ import { AlertService } from '../shared/alert.service';
 })
 export class CommentComponent implements OnInit {
  
+  @Input() viewPostButton: boolean = false;
   @Input() comment: Comment;
   @Input() profile: Profile;
   @Output() onDelete = new Subject();
@@ -39,6 +40,11 @@ export class CommentComponent implements OnInit {
      this.spoiler = this.comment.spoiler || this.laterEnigma;
   }
 
+  onClickCard() {
+    console.log("go to post");
+    this.nav.navigateForward(["/post/", this.comment.post], {queryParams: {comment: this.comment.id}});
+    //viewButton
+  }
   
   onClickLike() {
     if(this.comment.liked)
@@ -55,7 +61,6 @@ export class CommentComponent implements OnInit {
           'Impossible to like.',
           ['OK']
         );
-        
       }
     });
   }
@@ -174,5 +179,4 @@ export class CommentComponent implements OnInit {
   showSpoiler() {
     this.spoiler = false;
   }
-
 }

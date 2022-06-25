@@ -12,6 +12,7 @@ export class PostPage implements OnInit {
 
   post: Post;
   error: string;
+  commentId = 0;
 
   @ViewChild(PostComponent, {static: false}) postComponent;
 
@@ -21,6 +22,9 @@ export class PostPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.commentId = this.route.snapshot.queryParams["comment"];
+    console.log("comment id", this.commentId);
+
     this.route.params.subscribe(params => {
       this.propaganda.getPosts(GetMode.Exact, params.id, 0, 255, 0, false, Language.All, SortMode.Date).subscribe(result => {
         if(result.success) {
@@ -38,7 +42,7 @@ export class PostPage implements OnInit {
   }
 
   onPostShow(component: PostComponent) {
-    component.onClickComments();
+    component.showComments(this.commentId);
   }
 
 }

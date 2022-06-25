@@ -129,6 +129,17 @@ export class PostComponent implements OnInit, OnDestroy{
     });   
   }
 
+  public showComments(commentId: number) {
+    
+    this.commentsOpen = true;
+
+    if(commentId > 0) {
+      this.reloadComments(GetMode.Range, commentId);
+    } else {
+      this.reloadComments(GetMode.Begin, 0);
+    }
+  }
+
   public onClickComments() {
 
     if(this.commentsOpen){ 
@@ -136,7 +147,6 @@ export class PostComponent implements OnInit, OnDestroy{
       return;
     }
 
-    
     this.reloadComments(GetMode.Begin, 0);
   }
 

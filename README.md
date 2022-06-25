@@ -1,17 +1,15 @@
 # Propaganda Client
 
 ## To do
-- button to view a comment in context if we click from a profile
 - auto-follow when comment
-- refresh notifications in background
-- show a red dot on the notification icon
 - notifications for received likes
-- show an alert when you have no more likes
+- show an alert when you finished the cores and tried to like
 - check loaders: dismiss in case of failure
 
 ## Bugs
 - cores are not refreshed when a like is sent
 - user should not be able to report themselves
+- if login from profile page, when you press back you'll go to auth page again
 
 ## Requirements
 
@@ -34,3 +32,11 @@
     > `Cannot find module '.../iconv-lite/lib/index.js'. Please verify that the package.json has a valid "main" entry`
    
     Delete the node_modules, package-lock.json and re-run `npm i`
+
+## Info
+- Push notifications
+  - https://capacitorjs.com/docs/guides/push-notifications-firebase
+
+
+npx cap copy
+npx cap sync

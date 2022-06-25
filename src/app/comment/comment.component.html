@@ -48,13 +48,19 @@
     </ion-row>
 
     <ion-row>
-      <ion-buttons> 
-        <ion-button (click)="onClickLike()">
+      <ion-col class="ion-no-margin ion-no-padding">   
+        <ion-button fill="clear" (click)="onClickLike()" class="ion-no-margin ion-no-padding">
           <ion-icon [name]="comment.liked ? 'heart' : 'heart-outline'"></ion-icon>
           <ion-text>{{comment.likes || ''}}</ion-text>
-        </ion-button> 
-
-      </ion-buttons>
+        </ion-button>
+      </ion-col>
+      <ion-col class="ion-no-margin ion-no-padding ion-text-right" *ngIf="viewPostButton">  
+        <ion-button fill="clear" (click)="onClickCard()">
+          <ion-icon slot="start" name="chevron-forward"></ion-icon>
+          <ion-label>View Post</ion-label>
+        </ion-button>
+      </ion-col>
+      
     </ion-row>
       
   </ion-grid> 

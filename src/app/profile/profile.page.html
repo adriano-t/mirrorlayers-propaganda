@@ -117,7 +117,11 @@
     
     <ion-row *ngIf="tab === 1" class="ion-justify-content-center">
       <ion-col *ngIf="comments&& comments.length > 0">
-        <app-comment *ngFor="let comment of comments" [comment]="comment" [profile]="me" (onDelete)="onCommentDelete()" ></app-comment>
+        <app-comment *ngFor="let comment of comments"
+         [comment]="comment" 
+         [profile]="me" 
+         [viewPostButton]="true"
+         (onDelete)="onCommentDelete()" ></app-comment>
       </ion-col>
       <ion-col *ngIf="!isLoading && (!comments || comments.length <= 0)" class="ion-text-center">
         No comments.
