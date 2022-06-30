@@ -25,7 +25,22 @@
 ## Getting started
 
 - Run on Browser
-    ionic serve
+    npm run serve
+
+- Build on Browser
+    npm run prod
+
+- Run on Android
+    npm run serve:android
+
+- Build Android
+    npm run prod:android
+
+
+## Generate Icons
+npm install cordova-res -g
+cordova-res ios --skip-config --copy
+cordova-res android --skip-config --copy
 
 ## Potential issues
 - if after installation shows 
@@ -38,5 +53,20 @@
   - https://capacitorjs.com/docs/guides/push-notifications-firebase
 
 
-npx cap copy
-npx cap sync
+`npx cap copy`
+`npx cap sync`
+`npx cap open android` open the project in Android Studio
+
+- To allow steam and website navigation inside the app webview
+  > capacitor.config.json
+  "server": {
+    // Capacitor to open URLs belonging to these hosts inside its WebView.
+    "allowNavigation": [
+      "example.org",
+      "*.example.org",
+      "192.0.2.1"
+    ]
+  }
+
+- To prevent err_cleartext_not_permitted
+    <application android:usesCleartextTraffic="true">

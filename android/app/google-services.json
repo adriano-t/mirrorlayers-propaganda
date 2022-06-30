@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "856826220801",
+    "project_id": "propaganda-notifications",
+    "storage_bucket": "propaganda-notifications.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856826220801:android:391992d5bf6df17f4c4b00",
+        "android_client_info": {
+          "package_name": "com.revolab.propaganda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "856826220801-781rprppbcb60f6ji8c0t4ft1i1lqip1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPSzr8iOy99B8UUijg3ATgWefz_cPlJRY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "856826220801-781rprppbcb60f6ji8c0t4ft1i1lqip1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

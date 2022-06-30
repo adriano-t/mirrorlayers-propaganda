@@ -1,0 +1,12 @@
+{
+	"appId": "com.revolab.propaganda",
+	"appName": "Propaganda",
+	"webDir": "www",
+	"bundledWebRuntime": false,
+	"server": {
+		"allowNavigation": [
+			"steamcommunity.com",
+			"mirrorlayers.com"
+		]
+	}
+}

@@ -1,9 +1,9 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { StatusBar } from '@capacitor/status-bar';
 import { IonToggle, MenuController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { PreferencesService } from './services/preferences.service';
 import { Profile, PropagandaService } from './services/propaganda.service';
-import { StorageService } from './services/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +36,9 @@ export class AppComponent implements OnInit, OnDestroy {
       let darkTheme = this.prefs.get("dark-theme", true);
       this.toggleDarkTheme(darkTheme);
     });
+
+    //NavigationBar.setColor({color: ""});
+    StatusBar.setOverlaysWebView({ overlay: true });
   }
 
 

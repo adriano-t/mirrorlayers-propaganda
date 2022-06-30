@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
+import { StorageService } from './storage.service';
+import {Buffer} from 'buffer';
+import { Capacitor } from '@capacitor/core';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +20,8 @@ export class PropagandaService {
   profileCallback = new BehaviorSubject<Profile>(null);
   
   private devTest = "";//"?dev-test=true";
-  
+  private privateKey = null;
+
   // private readonly filenameRegister = "register.php";
   private readonly filenameCheckLogin = "checklogin.php";
   private readonly filenameLogout = "logout.php";
@@ -46,7 +50,8 @@ export class PropagandaService {
   constructor(
     private http: HttpClient,
     private nav: NavController,
-    private router: Router) { }
+    private router: Router,
+    private storage: StorageService) { }
 
   public isLogged(){
     return this.loggedIn;
@@ -58,10 +63,11 @@ export class PropagandaService {
  
   private generateSteamUrl() {
     
-    const paramChar = window.location.href.includes("?") ? "&" : "?";
+    let currentUrl = window.location.href;
+    const paramChar = currentUrl.includes("?") ? "&" : "?";
     const redirectParams = new HttpParams({ fromObject: {
-      redirect: encodeURIComponent(window.location.href),
-      fail_redirect: encodeURIComponent(window.location.href + paramChar + "failed=true"),
+      redirect: encodeURIComponent(currentUrl),
+      fail_redirect: encodeURIComponent(currentUrl + paramChar + "failed=true"),
     }}).toString();
     
 	  const steamUrl = 'https://steamcommunity.com/openid/login';
@@ -112,10 +118,88 @@ export class PropagandaService {
     });
   }
   
+  private loadPrivatekey() {
+    this.storage.get("privatekey").then(value => {
+      value = JSON.parse(value);
+      console.log("value", value);
+      window.crypto.subtle.importKey( "jwk",  value, 
+        {
+          name: "RSA-OAEP",
+          hash: {name: "SHA-1"}, //can be "SHA-1", "SHA-256", "SHA-384", or "SHA-512"
+        },
+        true, //extractable
+        ["decrypt"]
+      ).then(privateKey => {
+        this.privateKey = privateKey;
+      })
+    })
+  }
+
+  private generateRSAKeys(): Promise<string> {
+    return window.crypto.subtle.generateKey({
+        name: "RSA-OAEP",
+        modulusLength: 2048, //can be 1024, 2048, or 4096
+        publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+        hash: {name: "SHA-1"}, //can be "SHA-1", "SHA-256", "SHA-384", or "SHA-512"
+      },
+      true, //whether the key is extractable (i.e. can be used in exportKey)
+      ["decrypt"] //can be any combination of "sign" and "verify"
+    )
+    .then((key) => {
+      return new Promise<string>((resolve, reject)=>{
+        this.privateKey = key.privateKey;
+        window.crypto.subtle.exportKey("jwk", key.privateKey)
+        .then(exportedKey => {
+          this.storage.set("privatekey", JSON.stringify(exportedKey))
+          .then(()=>{
+            console.log("saved private key");
+            window.crypto.subtle.exportKey("spki", key.publicKey)
+            .then(exportedKey=>{
+              console.log("generated public key");
+              const exportedAsString = this.ab2str(exportedKey);
+              const exportedAsBase64 = window.btoa(exportedAsString);
+              resolve(exportedAsBase64);
+              // const pemExported = `-----BEGIN PRIVATE KEY-----\n${exportedAsBase64}\n-----END PRIVATE KEY-----`;
+              // console.log(pemExported);    
+            })
+            .catch(error => reject(error))
+          })
+          .catch(error => reject(error));
+        })
+        .catch(error => reject(error))        
+      });     
+    })
+  }
+
+  private ab2str(arraybuffer) {
+    return String.fromCharCode.apply(null, new Uint8Array(arraybuffer));
+  }
+
+  private decryptToken(cryptedToken) {
+    const buff = Buffer.from(cryptedToken, 'base64');
+    window.crypto.subtle.decrypt({
+        name: "RSA-OAEP",
+      },
+      this.privateKey,
+      buff
+    ).then(asd => {
+      console.log(this.ab2str(asd));
+    })
+    .catch(err=>console.error(err.message));
+  }
+
   public login ()  
   {
+    
     const url = this.generateSteamUrl();
     window.location.href = url;
+    
+
+    // this.generateRSAKeys().then(publicKey => {
+    //   console.log("public key:", publicKey);
+    //   const url = this.generateSteamUrl(publicKey);
+    //   window.location.href = url;
+    // })      
   }
 
   public logout ()  
@@ -134,7 +218,6 @@ export class PropagandaService {
           return data.success;
         }
       )
-    
     );
   }
 
