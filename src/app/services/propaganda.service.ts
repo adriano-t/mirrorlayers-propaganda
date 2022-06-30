@@ -5,8 +5,6 @@ import { NavController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
-import {Buffer} from 'buffer';
-import { Capacitor } from '@capacitor/core';
 
 @Injectable({
   providedIn: 'root'
@@ -176,16 +174,16 @@ export class PropagandaService {
   }
 
   private decryptToken(cryptedToken) {
-    const buff = Buffer.from(cryptedToken, 'base64');
-    window.crypto.subtle.decrypt({
-        name: "RSA-OAEP",
-      },
-      this.privateKey,
-      buff
-    ).then(asd => {
-      console.log(this.ab2str(asd));
-    })
-    .catch(err=>console.error(err.message));
+    // const buff = Buffer.from(cryptedToken, 'base64');
+    // window.crypto.subtle.decrypt({
+    //     name: "RSA-OAEP",
+    //   },
+    //   this.privateKey,
+    //   buff
+    // ).then(asd => {
+    //   console.log(this.ab2str(asd));
+    // })
+    // .catch(err=>console.error(err.message));
   }
 
   public login ()  

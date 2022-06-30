@@ -12,9 +12,8 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "baseHref": "/",
-            "outputPath": "www",
+          "options": {   
+            "outputPath": "www",           
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -46,7 +45,9 @@
             "optimization": false,
             "namedChunks": true
           },
+          
           "configurations": {
+
             "production": {
               "fileReplacements": [
                 {
@@ -55,6 +56,7 @@
                 }
               ],
               "optimization": true,
+              "baseHref": "/propaganda/", 
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
@@ -70,6 +72,33 @@
                 }
               ]
             },
+
+            "production-android": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "baseHref": "/", 
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            },
+
+           
             "ci": {
               "progress": false
             }

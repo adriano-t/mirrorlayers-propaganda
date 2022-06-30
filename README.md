@@ -10,6 +10,8 @@
 - cores are not refreshed when a like is sent
 - user should not be able to report themselves
 - if login from profile page, when you press back you'll go to auth page again
+- push notification is not implemented in web
+- StatusBar is not implemented in web
 
 ## Requirements
 
@@ -35,7 +37,6 @@
 
 - Build Android
     npm run prod:android
-
 
 ## Generate Icons
 npm install cordova-res -g

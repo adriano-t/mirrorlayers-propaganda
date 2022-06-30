@@ -12,8 +12,8 @@
     "e2e": "ng e2e",
     "serve": "ionic serve",
     "serve:android": "ionic capacitor run android -l --external",
-    "prod": "ionic build --prod --release --baseHref='/propaganda'",
-    "prod:android": "ionic capacitor build android --prod"
+    "prod": "ionic build --prod --release",
+    "prod:android": "ionic capacitor build android -- --configuration production-android"
   },
   "private": true,
   "dependencies": {
