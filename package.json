@@ -13,7 +13,7 @@
     "serve": "ionic serve",
     "serve:android": "ionic capacitor run android -l --external",
     "prod": "ionic build --prod --release",
-    "prod:android": "ionic capacitor build android -- --configuration production-android"
+    "prod:android": "ionic capacitor build android --configuration=production-android"
   },
   "private": true,
   "dependencies": {
