@@ -1,17 +1,17 @@
 # Propaganda Client
 
-## To do
+## Enhancements
 - auto-follow when comment
 - notifications for received likes
-- show an alert when you finished the cores and tried to like
+- show a more specific alert when you finished the cores and tried to like
 - check loaders: dismiss in case of failure
 
 ## Bugs
 - cores are not refreshed when a like is sent
 - user should not be able to report themselves
 - if login from profile page, when you press back you'll go to auth page again
-- push notification is not implemented in web
-- StatusBar is not implemented in web
+- Error [WEB] push notification is not implemented in web
+- Error [WEB] StatusBar is not implemented in web
 
 ## Requirements
 
