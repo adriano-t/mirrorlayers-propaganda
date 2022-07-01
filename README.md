@@ -1,7 +1,6 @@
 # Propaganda Client
 
-## Enhancements
-- auto-follow when comment
+## To do
 - notifications for received likes
 - show a more specific alert when you finished the cores instead of "impossible to like"
 - Edit Profile (Popup Modal)
@@ -11,6 +10,7 @@
 - check loaders: dismiss in case of failure
 
 ## Bugs
+- Sort by non si memorizza cambiando pagina
 - cores are not refreshed when a like is sent
 - user should not be able to report themselves
 - if login from profile page, when you press back you'll go to auth page again

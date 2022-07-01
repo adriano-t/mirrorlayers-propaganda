@@ -29,19 +29,21 @@ export class AuthPage implements OnInit {
       el.present();
 
       this.propa.checkLogin()
-      .subscribe((success) => { 
-        el.dismiss();
-        if(success) {
-          const params = this.route.snapshot.queryParams;
-          console.log("logged in, redirecting: ", params);
-          this.nav.navigateForward(params.redirect || "/");
-        } else {
-          console.log("not logged in");
+      .subscribe({
+        next: (success) => { 
+          el.dismiss();
+          if(success) {
+            const params = this.route.snapshot.queryParams;
+            console.log("logged in, redirecting: ", params);
+            this.nav.navigateForward(params.redirect || "/");
+          } else {
+            console.log("not logged in");
+          }
+        },
+        error: (error)=>{
+          console.error(error);
+          el.dismiss();
         }
-      },
-      (error)=>{
-        console.error(error);
-        el.dismiss();
       });
     })
   }

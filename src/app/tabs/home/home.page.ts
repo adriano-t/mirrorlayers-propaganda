@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IonContent, NavController } from '@ionic/angular';
+import { IonContent, IonSegment, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { GetMode, Language, Post, Profile, PropagandaService, SortMode } from '../../services/propaganda.service';
 import {
@@ -18,6 +18,7 @@ import {
 export class HomePage implements OnInit, OnDestroy{
 
   @ViewChild(IonContent) content;
+  @ViewChild(IonSegment) segment: IonSegment;
   page = 0;
   enigma = 0;
   enigmas: number[] = []
@@ -57,7 +58,6 @@ export class HomePage implements OnInit, OnDestroy{
 
     this.initPushNotifications();
 
-
     this.page = this.route.snapshot.params.page || 0;
     this.sub = this.propaganda.profileCallback.subscribe((data) => {
       this.profile = data;
@@ -65,7 +65,9 @@ export class HomePage implements OnInit, OnDestroy{
         return;
       this.enigmas = [].constructor(data.enigma + 1);
       this.enigma = this.propaganda.selectedEnigma;
-    });  
+    });     
+    
+    this.segment.value = this.sortMode == SortMode.Date ? "date" : "enigma";
   }
   
   initPushNotifications() {
