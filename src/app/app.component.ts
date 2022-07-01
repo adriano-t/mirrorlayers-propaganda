@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Capacitor } from '@capacitor/core';
 import { StatusBar } from '@capacitor/status-bar';
 import { IonToggle, MenuController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -65,6 +66,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.prefs.set("dark-theme", shouldAdd);
   }
  
+  canShowFullscreenButton() {
+    return !Capacitor.isNativePlatform();
+  }
 
   onClickFullscreen() {
     document.documentElement.requestFullscreen({navigationUI: 'hide'});

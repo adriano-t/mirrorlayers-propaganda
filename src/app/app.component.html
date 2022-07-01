@@ -47,7 +47,7 @@
         </ion-col>
       </ion-row>
 
-      <ion-row  class="ion-no-margin ion-no-padding">
+      <ion-row  class="ion-no-margin ion-no-padding" *ngIf="canShowFullscreenButton()">
         <ion-col class="ion-no-margin ion-no-padding">
           <ion-list>
             <ion-item detail="true" button="true" (click)="onClickFullscreen()" >

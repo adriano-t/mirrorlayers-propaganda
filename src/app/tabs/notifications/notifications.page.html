@@ -25,7 +25,7 @@
             -->
             <ion-item detail="false" button (click)="onClick(notification)">
               <!-- <span slot="start" *ngIf="isUnread(notification)">•</span> -->
-              <ion-icon slot="start" [name]="getNotificationIcon(notification)" [color]="isUnread(notification)? 'primary' : ''"></ion-icon>
+              <ion-icon slot="start" [name]="getNotificationIcon(notification)" [color]="isUnread(notification)? 'tertiary' : ''"></ion-icon>
               <ion-text>{{getNotificationMessage(notification)}}</ion-text>
               <ion-button class="small" slot="end" fill="clear" expand="block" (click)="$event.stopPropagation(); onClickDelete(notification)">
                 <ion-icon  slot="icon-only" name="trash" ></ion-icon>

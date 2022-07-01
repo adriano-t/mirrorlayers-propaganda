@@ -3,8 +3,10 @@
 ## Enhancements
 - auto-follow when comment
 - notifications for received likes
-- show a more specific alert when you finished the cores and tried to like
+- show a more specific alert when you finished the cores instead of "impossible to like"
 - check loaders: dismiss in case of failure
+- push notifications
+- Edit Profile
 
 ## Bugs
 - cores are not refreshed when a like is sent

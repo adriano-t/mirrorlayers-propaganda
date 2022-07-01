@@ -173,7 +173,11 @@ export class ProfilePage implements OnInit {
 
   async presentActionSheet() {
 
-    const buttons = [{
+    
+    let buttons: any[];
+    
+      if(this.profile.id != this.me.id) {
+        buttons = [{
           text: 'Report profile',
           icon: 'flag',
           data: 10,
@@ -192,14 +196,19 @@ export class ProfilePage implements OnInit {
             });
             
           }
-        },
-        {
-          text: 'Cancel',
-          icon: 'close',
-          role: 'cancel',
-          handler: () => {}
         }
-      ]
+      ];
+    } else {
+      //TODO edit profile
+    }
+
+
+    buttons.push({
+      text: 'Cancel',
+      icon: 'close',
+      role: 'cancel',
+      handler: () => {}
+    });
  
 
     const actionSheet = await this.actionSheetController.create({
