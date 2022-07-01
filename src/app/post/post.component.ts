@@ -116,12 +116,21 @@ export class PostComponent implements OnInit, OnDestroy{
     }).then(el => {
       el.present(); 
       this.propaganda.createComment(this.post.id, elem.value, false, this.filename).subscribe((commentId) => {
-        el.dismiss();
+        
         if(!commentId) {
           this.alert.show("Error", null, "Impossible to send comment", ["OK"]);
+          el.dismiss()
           return;
         }
-  
+
+        this.post.comments_count++;
+        
+        if(!this.post.followed)
+          this.propaganda.follow(this.post.id, true).subscribe(()=>{
+            this.post.followed = true;
+            el.dismiss();
+          })
+        
         this.reloadComments(GetMode.Range, commentId);
       });
       elem.value = "";

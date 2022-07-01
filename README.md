@@ -4,9 +4,11 @@
 - auto-follow when comment
 - notifications for received likes
 - show a more specific alert when you finished the cores instead of "impossible to like"
+- Edit Profile (Popup Modal)
+- Push notifications
+
+## Tests
 - check loaders: dismiss in case of failure
-- push notifications
-- Edit Profile
 
 ## Bugs
 - cores are not refreshed when a like is sent
@@ -14,6 +16,7 @@
 - if login from profile page, when you press back you'll go to auth page again
 - Error [WEB] push notification is not implemented in web
 - Error [WEB] StatusBar is not implemented in web
+
 
 ## Requirements
 
