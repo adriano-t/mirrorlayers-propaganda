@@ -39,7 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     //NavigationBar.setColor({color: ""});
-    StatusBar.setOverlaysWebView({ overlay: false });
+    StatusBar?.setOverlaysWebView({ overlay: false }).catch(()=>{});
   }
 
 

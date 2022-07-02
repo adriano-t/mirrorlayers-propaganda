@@ -14,6 +14,7 @@ export class PropagandaService {
   private loggedIn = false;
   private profile: Profile;
   public language = Language.En;
+  public sortMode = SortMode.Date;
   public selectedEnigma = 0;
   profileCallback = new BehaviorSubject<Profile>(null);
   

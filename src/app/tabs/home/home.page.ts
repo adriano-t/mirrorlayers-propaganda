@@ -9,6 +9,7 @@ import {
   PushNotifications,
   Token,
 } from '@capacitor/push-notifications';
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-homepage',
@@ -18,7 +19,7 @@ import {
 export class HomePage implements OnInit, OnDestroy{
 
   @ViewChild(IonContent) content;
-  @ViewChild(IonSegment) segment: IonSegment;
+  @ViewChild(IonSegment, {static: true}) segment: IonSegment;
   page = 0;
   enigma = 0;
   enigmas: number[] = []
@@ -43,7 +44,6 @@ export class HomePage implements OnInit, OnDestroy{
     "Russian",
   ];
   posts: Post[];
-  sortMode = SortMode.Date;
   profile: Profile;
   sub: Subscription;
   isLoading = false;
@@ -55,7 +55,7 @@ export class HomePage implements OnInit, OnDestroy{
   ) {}
     
   ngOnInit(): void {
-
+    console.log("init");
     this.initPushNotifications();
 
     this.page = this.route.snapshot.params.page || 0;
@@ -67,11 +67,14 @@ export class HomePage implements OnInit, OnDestroy{
       this.enigma = this.propaganda.selectedEnigma;
     });     
     
-    this.segment.value = this.sortMode == SortMode.Date ? "date" : "enigma";
+    this.segment.value = this.propaganda.sortMode == SortMode.Date ? "date" : "enigma";
   }
   
   initPushNotifications() {
     
+    if(!Capacitor.isPluginAvailable("PushNotifications"))
+      return;
+
     // Request permission to use push notifications
     // iOS will prompt user and return if they granted permission or not
     // Android will just grant without prompting
@@ -134,7 +137,7 @@ export class HomePage implements OnInit, OnDestroy{
   reloadPosts() {
     this.posts = [];
     this.isLoading = true;
-    this.propaganda.getPosts(GetMode.Page, 0, this.page, this.enigma, 0, false, this.propaganda.language, this.sortMode).subscribe((result) => {
+    this.propaganda.getPosts(GetMode.Page, 0, this.page, this.enigma, 0, false, this.propaganda.language, this.propaganda.sortMode).subscribe((result) => {
       this.isLoading = false;
       if(result.success) { 
         this.posts = result.posts;
@@ -176,9 +179,9 @@ export class HomePage implements OnInit, OnDestroy{
 
   segmentChanged(event) {
     if(event.detail.value === 'enigma')
-      this.sortMode = SortMode.Enigma;
+      this.propaganda.sortMode = SortMode.Enigma;
     else
-      this.sortMode = SortMode.Date;
+      this.propaganda.sortMode = SortMode.Date;
 
     this.reloadPosts();
   }

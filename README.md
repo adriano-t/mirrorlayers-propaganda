@@ -5,11 +5,13 @@
 - show a more specific alert when you finished the cores instead of "impossible to like"
 - Edit Profile (Popup Modal)
 - Push notifications
+- Try crosswalk
 
 ## Tests
 - check loaders: dismiss in case of failure
 
 ## Bugs
+- samsung s8 theme only white (maybe old version of webview)
 - Sort by non si memorizza cambiando pagina
 - cores are not refreshed when a like is sent
 - user should not be able to report themselves
