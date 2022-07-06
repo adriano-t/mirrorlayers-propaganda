@@ -39,6 +39,7 @@ export class PropagandaService {
   private readonly filenameDeleteNotification = "deletenotification.php";
   private readonly filenameReport = "report.php";
   private readonly filenameGetSentFiles = "getsentfiles.php";
+  private readonly filenameSubscribeNotifications = "subscribenotifications.php";
   // private readonly filenameEnigma = "enigma.php";
   // private readonly filenameDownload = "download.php";
   // private readonly filenameGetVariables = "getvariables.php";
@@ -330,17 +331,7 @@ export class PropagandaService {
       formData, 
       {withCredentials: true, })
     .pipe(
-      take(1),
-      map(
-        (data) : boolean => { 
-          if(!data.success) {
-            console.log(data.errors);
-            return false;
-          }
- 
-          return true;
-        }
-      )
+      take(1)
     );
   }  
 
@@ -521,6 +512,33 @@ export class PropagandaService {
       {withCredentials: true, })
     .pipe(
       take(1)
+    );
+  }  
+
+  
+  subscribeNotifications(token: string) {
+    const jsonData : SubscribeNotificationsInfo = {
+      token: token,
+    };
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(jsonData));
+    return this.http
+    .post<Result>(
+      this.baseAddress1 + this.filenameSubscribeNotifications + this.devTest, 
+      formData, 
+      {withCredentials: true, })
+    .pipe(
+      take(1),
+      map(
+        (data) : boolean => {
+          if(!data.success) {
+            console.log(data.errors);
+            return false;
+          }
+
+          return true;
+        }
+      )
     );
   }  
 
@@ -816,6 +834,10 @@ export interface FollowInfo {
 
 export interface GetProfileInfo {
   id: number;
+}
+
+export interface SubscribeNotificationsInfo {
+  token: string;
 }
 
 export interface EditProfileInfo {

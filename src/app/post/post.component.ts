@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActionSheetController, IonTextarea, LoadingController, NavController } from '@ionic/angular';
 import { Subject, Subscription } from 'rxjs';
-import { Comment, GetMode, LikeType, Post, Profile, PropagandaService, ReportMotivation, ReportType } from '../services/propaganda.service';
+import { Comment, GetMode, LikeType, Post, Profile, PropagandaService, ReportMotivation, ReportType, Result } from '../services/propaganda.service';
 import { Translation } from '../services/Translation.model';
 import { AlertService } from '../shared/alert.service';
 import { FilepickerService } from '../shared/filepicker/filepicker.service';
@@ -163,15 +163,19 @@ export class PostComponent implements OnInit, OnDestroy{
     if(this.post.liked)
       return;
 
-    this.propaganda.like(this.post.id, LikeType.Post, true).subscribe((success) => {
-      if(success) {
+    this.propaganda.like(this.post.id, LikeType.Post, true).subscribe((result: Result) => {
+      if(result.success) {
         this.post.liked = true;
         this.post.likes++;
       } else {
-        this.alert.show( 
+        let errorMessage = 'Impossible to like.';
+        if(result.errors.indexOf("ERROR_MIN_LIKES_COUNT") >= 0)
+          errorMessage = 'No more likes to give, you can earn them inside the game';
+
+        this.alert.show(
           'Error',
           null,
-          'Impossible to like.',
+          errorMessage,
           ['OK']
         );
         

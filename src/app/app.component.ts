@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
+import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from '@capacitor/push-notifications';
 import { StatusBar } from '@capacitor/status-bar';
 import { IonToggle, MenuController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
     ) {}
   
   ngOnInit(): void {
+    
     this.sub = this.propaganda.profileCallback.subscribe((data) => {
       this.profile = data;
     });
@@ -40,6 +42,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     //NavigationBar.setColor({color: ""});
     StatusBar?.setOverlaysWebView({ overlay: false }).catch(()=>{});
+    
+    
+    this.initPushNotifications();
+    
   }
 
 
@@ -83,6 +89,61 @@ export class AppComponent implements OnInit, OnDestroy {
         this.nav.navigateRoot(["/auth"]);
       }
     });
+  }
+
+  initPushNotifications() {
+    
+    if(!Capacitor.isPluginAvailable("PushNotifications"))
+      return;
+
+    // Request permission to use push notifications
+    // iOS will prompt user and return if they granted permission or not
+    // Android will just grant without prompting
+    PushNotifications.requestPermissions().then(result => {
+      if (result.receive === 'granted') {
+        // Register with Apple / Google to receive push via APNS/FCM
+        PushNotifications.register();
+      } else {
+        // Show some error
+      }
+    });
+
+    
+    // On success, we should be able to receive notifications
+    PushNotifications.addListener('registration',
+      (token: Token) => {
+        console.log('Push registration success, token: ' + token.value);
+        //send this value to the server
+        this.propaganda.subscribeNotifications(token.value).subscribe(success => {
+          if(success) {
+            alert("subscribed! " + token.value);
+          } else {
+            alert("failed to subscribe! " + token.value);
+          }
+        });
+      }
+    );
+
+    // Some issue with our setup and push will not work
+    PushNotifications.addListener('registrationError',
+      (error: any) => {
+        console.log('Error on registration: ' + JSON.stringify(error));
+      }
+    );
+
+    // Show us the notification payload if the app is open on our device
+    PushNotifications.addListener('pushNotificationReceived',
+      (notification: PushNotificationSchema) => {
+        console.log('Push received: ' + JSON.stringify(notification));
+      }
+    );
+
+    // Method called when tapping on a notification
+    PushNotifications.addListener('pushNotificationActionPerformed',
+      (notification: ActionPerformed) => {
+        console.log('Push action performed: ' + JSON.stringify(notification));
+      }
+    );
   }
 
 }
