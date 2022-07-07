@@ -80,3 +80,7 @@ cordova-res android --skip-config --copy
 
 - To prevent err_cleartext_not_permitted
     <application android:usesCleartextTraffic="true">
+
+## Info
+`https://firebase.google.com/docs/cloud-messaging/send-message#rest_5`
+`https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages`
