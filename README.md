@@ -1,9 +1,6 @@
 # Propaganda Client
 
 ## To do
-- Push notifications
-  - Send the registration token to php and save in the database
-  - Send notifications from php
 - notifications for received likes
 - show a more specific alert when you finished the cores instead of "impossible to like"
 - Edit Profile (Popup Modal)

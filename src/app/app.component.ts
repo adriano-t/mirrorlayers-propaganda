@@ -107,18 +107,16 @@ export class AppComponent implements OnInit, OnDestroy {
         // Show some error
       }
     });
-
     
     // On success, we should be able to receive notifications
     PushNotifications.addListener('registration',
       (token: Token) => {
-        console.log('Push registration success, token: ' + token.value);
         //send this value to the server
         this.propaganda.subscribeNotifications(token.value).subscribe(success => {
           if(success) {
-            alert("subscribed! " + token.value);
+            console.log("subscribed! " + token.value);
           } else {
-            alert("failed to subscribe! " + token.value);
+            console.log("failed to subscribe! " + token.value);
           }
         });
       }

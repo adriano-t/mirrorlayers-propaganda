@@ -126,10 +126,15 @@ export class PostComponent implements OnInit, OnDestroy{
         this.post.comments_count++;
         
         if(!this.post.followed)
-          this.propaganda.follow(this.post.id, true).subscribe(()=>{
-            this.post.followed = true;
-            el.dismiss();
-          })
+          this.propaganda.follow(this.post.id, true).subscribe({
+            next:()=>{
+              this.post.followed = true;
+              el.dismiss();
+            },
+            error: (error) => {
+              el.dismiss();
+            }
+          });
         
         this.reloadComments(GetMode.Range, commentId);
       });

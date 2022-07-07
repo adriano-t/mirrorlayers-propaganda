@@ -15,7 +15,7 @@
     <ion-row>
       <ion-col    class="ion-text-center">
         <ion-list>
-          <ng-component *ngIf="notifications && notifications.length > 0">
+          <ng-container *ngIf="notifications && notifications.length > 0">
           <ion-item-sliding *ngFor="let notification of notifications">
             <!--
             <ion-item-options side="end">
@@ -33,7 +33,7 @@
               </ion-button>
             </ion-item>
           </ion-item-sliding>
-          </ng-component>
+          </ng-container>
           <ion-item *ngIf="(!notifications || notifications.length == 0) && !isLoading">
             <ion-text>No notifications</ion-text>
           </ion-item>
