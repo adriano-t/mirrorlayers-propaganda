@@ -115,28 +115,29 @@ export class PostComponent implements OnInit, OnDestroy{
       message: "Sending",
     }).then(el => {
       el.present(); 
-      this.propaganda.createComment(this.post.id, elem.value, false, this.filename).subscribe((commentId) => {
-        
-        if(!commentId) {
-          this.alert.show("Error", null, "Impossible to send comment", ["OK"]);
-          el.dismiss()
-          return;
-        }
+      this.propaganda.createComment(this.post.id, elem.value, false, this.filename).subscribe({
+        next: (commentId) => {
+          if(!commentId) {
+            this.alert.show("Error", null, "Impossible to send comment", ["OK"]);
+            el.dismiss()
+            return;
+          }
 
-        this.post.comments_count++;
-        
-        if(!this.post.followed)
-          this.propaganda.follow(this.post.id, true).subscribe({
-            next:()=>{
-              this.post.followed = true;
-              el.dismiss();
-            },
-            error: (error) => {
-              el.dismiss();
-            }
-          });
-        
-        this.reloadComments(GetMode.Range, commentId);
+          this.post.comments_count++;
+          el.dismiss();
+          
+          if(!this.post.followed)
+            this.propaganda.follow(this.post.id, true).subscribe({
+              next:()=>{
+                this.post.followed = true;
+              }
+            });
+          
+          this.reloadComments(GetMode.Range, commentId);
+        },
+        error: () => {
+          el.dismiss();
+        }
       });
       elem.value = "";
       this.filename = undefined;

@@ -12,7 +12,7 @@ export class NotificationsPage implements OnInit {
 
   isLoading = false;
   notifications: Notification[] = [];
-  maxLength = 30;
+  maxLength = 40;
 
   constructor(
     private actionSheetController: ActionSheetController,

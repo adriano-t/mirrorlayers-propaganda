@@ -132,6 +132,12 @@ export class AppComponent implements OnInit, OnDestroy {
     // Show us the notification payload if the app is open on our device
     PushNotifications.addListener('pushNotificationReceived',
       (notification: PushNotificationSchema) => {
+        var data = notification.data;
+        if(data) {
+          alert(JSON.stringify(data));
+        } else {
+          alert("No notification data :(");
+        }
         console.log('Push received: ' + JSON.stringify(notification));
       }
     );
@@ -140,6 +146,7 @@ export class AppComponent implements OnInit, OnDestroy {
     PushNotifications.addListener('pushNotificationActionPerformed',
       (notification: ActionPerformed) => {
         console.log('Push action performed: ' + JSON.stringify(notification));
+        alert("ACTION " + JSON.stringify(notification));
       }
     );
   }
